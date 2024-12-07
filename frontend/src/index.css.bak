@@ -1,0 +1,16 @@
+@import url('https://cdn.jsdelivr.net/npm/bulma@1.0.2/css/bulma.min.css');
+
+/* :root {
+  font-family: 'Afacad Flux', sans-serif; Use your custom font
+  line-height: 1.5;
+  font-weight: 400;
+
+  color-scheme: dark;
+  color: rgba(255, 255, 255, 0.90);
+  background-color: #1d1d1d;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+} */

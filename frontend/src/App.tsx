@@ -10,7 +10,7 @@ function App() {
             <h1>
                 Hello world!
             </h1>
-            <button onClick={() => setCount((count) => count + 1)}>
+            <button className="button is-primary" onClick={() => setCount((count) => count + 1)}>
                 count is {count}
             </button>
         </>

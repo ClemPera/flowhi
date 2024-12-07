@@ -7,11 +7,15 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "build-bulma": "sass --load-path=node_modules src/index.scss src/index.css",
+    "start": "npm run build-bulma -- --watch"
   },
   "dependencies": {
+    "bulma": "^1.0.2",
     "react": "^18.3.1",
-    "react-dom": "^18.3.1"
+    "react-dom": "^18.3.1",
+    "sass": "^1.82.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.15.0",

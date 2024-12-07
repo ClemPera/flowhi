@@ -1,5 +1,9 @@
 # wellbeing
 
+Frontend: Vite.js+React
+Backend:Express.js
+DB:Mysql
+
 ## Start backend: 
 ```bash
 cd backend 

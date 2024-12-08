@@ -1,14 +1,12 @@
+@import url('https://fonts.googleapis.com/css2?family=Afacad+Flux:wght@100..1000&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 body {
-  margin: 0;
-  padding: 0;
-  overflow-x: hidden;
   background-color: #0f1014;
   color: white;
-  font-family: "Lexend", serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  font-family: "Afacad Flux", sans-serif;
+  font-size: 1.2rem
 }

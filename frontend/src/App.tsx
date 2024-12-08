@@ -6,13 +6,7 @@ function App() {
 
     return (
         <>
-            <p>yo bro</p>
-            <h1>
-                Hello world!
-            </h1>
-            <button className="button is-primary" onClick={() => setCount((count) => count + 1)}>
-                count is {count}
-            </button>
+            yo
         </>
     )
 }

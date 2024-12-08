@@ -18,6 +18,13 @@ cd frontend
 npm run dev
 ```
 
+## Start Tailwind watch:
+```bash
+cd frontend
+
+npm start
+```
+
 docker/mariadb
 docker/grafana
 

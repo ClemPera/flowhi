@@ -3,7 +3,7 @@ import './index.css'
 function App() {
     return (
         <>
-            <nav className="flex bg-zinc-800 bg-opacity-40 mx-60 my-2 p-4 pb-5 rounded-2xl">
+            <nav className="flex bg-zinc-800 bg-opacity-40 mx-80 my-2 p-4 pb-5 rounded-2xl">
                 <div className="flex-1">
                     <a href="/">
                         [img] myapp
@@ -11,11 +11,12 @@ function App() {
                 </div>
 
                 <div className="flex-2">
-                    <a href="/login" className="ml-auto">
+                    <a href="/login" className="ml-auto font-bold">
                         Sign in
                     </a>
                 </div>
             </nav>
+            <div className="my-10"></div>
         </>
     )
 }

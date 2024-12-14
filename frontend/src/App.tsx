@@ -1,9 +1,11 @@
 import './index.css'
-import Plus from './Plus'
+import Plus from './components/Plus'
+import Scale from './components/Scale'
 
 function App() {
     return (
         <>
+            <Scale />
             <Plus />
         </>
     )

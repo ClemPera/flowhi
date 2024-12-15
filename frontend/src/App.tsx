@@ -4,10 +4,10 @@ import Scale from './components/Scale'
 
 function App() {
     return (
-        <>
+        <div>
             <Scale />
             <Plus />
-        </>
+        </div>
     )
 }
 

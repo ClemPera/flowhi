@@ -5,7 +5,7 @@ import Scale from './components/Scale'
 function App() {
     return (
         <>
-            <Scale n={4} />
+            <Scale n={8} />
             <Plus />
         </>
     )

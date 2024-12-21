@@ -2,6 +2,7 @@ import '../index.css'
 
 export default function Scale( {n}: {n: number} ) {
     let items: any = [];
+    let id = 0;
 
     //List points
     for(let i: number = 0; i < n; i++){
@@ -9,10 +10,10 @@ export default function Scale( {n}: {n: number} ) {
             items.push(<Line/>)
         }
 
-        items.push(<Point/>)
+        items.push(<Point id={id++}/>)
     }
     //TODO: If >8 (or smth idk), change for something else or smth
-
+    
     return (
         <div className="flex bg-zinc-800 mx-1 md:mx-24 xl:mx-60 my-2 p-4 pb-5 rounded-xl place-content-center">
             {items}
@@ -20,10 +21,13 @@ export default function Scale( {n}: {n: number} ) {
     )
 }
 
-function Point() {
+function Point({id}: {id: number}) {
     //Half point
+
     return (
-        <button className="relative w-5 h-5 bg-transparent rounded-full border-4 border-white hover:bg-white focus:bg-white"></button>
+        <>
+            <button onClick={() => updateStatus(id)} className="relative w-5 h-5 bg-transparent rounded-full border-4 border-white hover:bg-white focus:bg-white"></button>
+        </>
     )
 }
 
@@ -35,4 +39,8 @@ function Line() {
             <div className="absolute w-6 h-2 bg-white -translate-x-0.5"></div>
         </div>
     )
+}
+
+function updateStatus(id: number){
+    //TODO : Call the api with id
 }

@@ -16,7 +16,7 @@ npm install
 ```bash
 cd backend 
 
-node app.js
+npm start
 ```
 
 ### Start frontend:

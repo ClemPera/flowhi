@@ -14,7 +14,7 @@ conn.connect();
 router.get('/', function(req, res) {
   let id=req.query['id'];
 
-  conn.query('SELECT * FROM data WHERE id=?', [id], function (error, results, fields) {
+  conn.query('SELECT * FROM fields WHERE id=?', [id], function (error, results, fields) {
     if (error) {
       console.log(error);
       res.send(500);
@@ -26,10 +26,10 @@ router.get('/', function(req, res) {
 
 //New data
 router.post('/', (req, res) => {
-  let champsId=req.query['champsId'];
-  let data=req.query['data'];
+  let name=req.query['name'];
+  let kind=req.query['kind'];
   
-  conn.query('INSERT INTO data (champsId, data) VALUES (?,?)', [champsId, data], function (error, results, fields) {
+  conn.query('INSERT INTO fields (name, kind) VALUES (?,?)', [name, kind], function (error, results, fields) {
     if (error) {
       console.log(error);
       res.send(500);
@@ -39,12 +39,10 @@ router.post('/', (req, res) => {
   })
 });
 
-//Update data
-router.put('/', (req, res) => {
+router.delete('/', (req, res) => {
   let id=req.query['id'];
-  let data=req.query['data'];
   
-  conn.query('UPDATE data SET data=? WHERE id=?', [data, id], function (error, results, fields) {
+  conn.query('DELETE FROM fields WHERE id=?', [id], function (error, results, fields) {
     if (error) {
       console.log(error);
       res.send(500);
@@ -53,4 +51,5 @@ router.put('/', (req, res) => {
       res.send(200);
   })
 });
+
 module.exports = router;

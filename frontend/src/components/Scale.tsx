@@ -7,10 +7,10 @@ export default function Scale( {n}: {n: number} ) {
     //List points
     for(let i: number = 0; i < n; i++){
         if(i != 0) {
-            items.push(<Line/>)
+            items.push(<Line key={items.length}/>)
         }
-
-        items.push(<Point id={id++}/>)
+        
+        items.push(<Point id={id++} key={items.length}/>)
     }
     //TODO: If >8 (or smth idk), change for something else or smth
     
@@ -26,7 +26,7 @@ function Point({id}: {id: number}) {
 
     return (
         <>
-            <button onClick={() => updateStatus(id)} className="relative w-5 h-5 bg-transparent rounded-full border-4 border-white hover:bg-white focus:bg-white"></button>
+            <button onClick={() => UpdateStatus(id)} className="relative w-5 h-5 bg-transparent rounded-full border-4 border-white hover:bg-white focus:bg-white"></button>
         </>
     )
 }
@@ -41,6 +41,7 @@ function Line() {
     )
 }
 
-function updateStatus(id: number){
+function UpdateStatus(id: number){
     //TODO : Call the api with id
+
 }

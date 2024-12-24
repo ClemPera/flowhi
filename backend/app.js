@@ -9,6 +9,7 @@ var usersRouter = require('./routes/data');
 var usersRouter = require('./routes/fields');
 
 var app = express();
+const cors = require('cors')
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -19,6 +20,12 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+
+//Enable cors
+let corsOptions = {
+  origin : ['http://localhost:5173'],
+}
+app.use(cors(corsOptions))
 
 app.use('/', indexRouter);
 app.use('/data', usersRouter);
@@ -39,5 +46,6 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
+
 
 module.exports = app;

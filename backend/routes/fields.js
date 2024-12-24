@@ -12,22 +12,21 @@ var conn = mysql.createConnection({
 conn.connect();
 
 router.get('/', function(req, res) {
-  let id=req.query['id'];
-
-  conn.query('SELECT * FROM fields WHERE id=?', [id], function (error, results, fields) {
+  conn.query('SELECT * FROM fields', function (error, results, fields) {
     if (error) {
       console.log(error);
       res.send(500);
     }
     else
-      res.send(results[0]);
+      res.send(results);
   });
 });
 
 //New data
 router.post('/', (req, res) => {
   let name=req.query['name'];
-  let kind=req.query['kind'];
+  let kind=req.query['kind'];2
+  res.setHeader("Content-Type", "application/json");
   
   conn.query('INSERT INTO fields (name, kind) VALUES (?,?)', [name, kind], function (error, results, fields) {
     if (error) {

@@ -25,10 +25,11 @@ router.get('/', function(req, res) {
 //New data
 router.post('/', (req, res) => {
   let name=req.query['name'];
-  let kind=req.query['kind'];2
+  let kind=req.query['kind'];
+  let size=req.query['size'];
   res.setHeader("Content-Type", "application/json");
   
-  conn.query('INSERT INTO fields (name, kind) VALUES (?,?)', [name, kind], function (error, results, fields) {
+  conn.query('INSERT INTO fields (name, kind, size) VALUES (?,?, ?)', [name, kind, size], function (error, results, fields) {
     if (error) {
       console.log(error);
       res.send(500);

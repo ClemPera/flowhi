@@ -1,9 +1,24 @@
 import './index.css'
 import { StrictMode, useState, useEffect } from 'react';
 import Plus from './components/Plus'
-import Scale from './components/Scale'
+import Scale from './components/Scale';
 
 function App() {
+    let listCompo = ListCompos();
+    
+    return (
+        <>
+            <StrictMode>
+                {listCompo}
+                <Plus />
+            </StrictMode>
+        </>
+    )
+}
+
+export default App
+
+function ListCompos(){
     let [compo, setCompo] = useState([]);
     
     useEffect(() => {
@@ -20,32 +35,12 @@ function App() {
         console.log(compo);
     }, [])
 
-    let tmp = []
+    let listCompo:Array<JSX.Element> = []
     compo.forEach(comp => {
-        tmp.push(comp['id']);
+        if(comp['kind'] == 'scale'){
+            listCompo = [...listCompo, <Scale n={comp['size']} key={comp['id']} />]
+        }
     });
 
-    return (
-        <>
-            <StrictMode>
-                <p>{JSON.stringify(compo)}</p>
-                <p>{tmp}</p>
-                <Scale n={8} />
-                <Plus />
-            </StrictMode>
-        </>
-    )
+    return listCompo;
 }
-
-async function GetFields(){
-    try{
-        let response = await fetch("http://localhost:3000/fields", {"method":"GET"});
-        let data = await response.json();
-        return data;
-    }
-    catch(e){
-        console.error("err:" + e);
-    }
-}
-
-export default App

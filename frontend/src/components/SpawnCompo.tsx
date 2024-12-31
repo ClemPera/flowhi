@@ -1,19 +1,9 @@
 import { useEffect, useState } from "react";
 import Scale from "./Scale";
 
-export default function SpawnCompo() {
-    let listCompo = ListCompos();
-    
-    return (
-        <>
-            {listCompo}
-        </>
-    )
-}
-
-function ListCompos(){
+export default function SpawnCompo({ renderTriggerCount}: { renderTriggerCount: number}) {
     let [compo, setCompo] = useState([]);
-    
+
     useEffect(() => {
         fetch("http://localhost:3000/fields", {"method":"GET"})
             .then(response => {
@@ -26,14 +16,19 @@ function ListCompos(){
             .catch(error => console.error("Fetch error:", error)); // Handle errors
 
         console.log(compo);
-    }, [])
+    }, [renderTriggerCount])
 
     let listCompo:Array<JSX.Element> = []
     compo.forEach(comp => {
-        if(comp['kind'] == 'scale'){
-            listCompo = [...listCompo, <Scale n={comp['size']} key={comp['id']} />]
+        switch(comp['kind']){
+            case 'scale':
+                listCompo = [...listCompo, <Scale n={comp['size']} key={comp['id']} />]
         }
     });
 
-    return listCompo;
+    return(
+        <>
+            {listCompo}
+        </>
+    )
 }

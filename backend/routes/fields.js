@@ -12,14 +12,27 @@ var conn = mysql.createConnection({
 conn.connect();
 
 router.get('/', function(req, res) {
-  conn.query('SELECT * FROM fields', function (error, results, fields) {
-    if (error) {
-      console.log(error);
-      res.send(500);
-    }
-    else
-      res.send(results);
-  });
+  let lastOne=req.query['lastOne'];
+  if(lastOne){
+    conn.query('SELECT * FROM fields ORDER BY id DESC LIMIT 1', function (error, results, fields) {
+      if (error) {
+        console.log(error);
+        res.send(500);
+      }
+      else
+        res.send(results);
+    });
+  }
+  else{
+    conn.query('SELECT * FROM fields', function (error, results, fields) {
+      if (error) {
+        console.log(error);
+        res.send(500);
+      }
+      else
+        res.send(results);
+    });
+  }
 });
 
 //New data

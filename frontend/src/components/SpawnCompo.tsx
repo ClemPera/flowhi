@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import Scale from "./Scale";
 
-export default function SpawnCompo({ renderTriggerCount}: { renderTriggerCount: number}) {
+export default function SpawnCompo() {
     let [compo, setCompo] = useState([]);
 
     useEffect(() => {
@@ -16,7 +16,7 @@ export default function SpawnCompo({ renderTriggerCount}: { renderTriggerCount: 
             .catch(error => console.error("Fetch error:", error)); // Handle errors
 
         console.log(compo);
-    }, [renderTriggerCount])
+    }, [])
 
     let listCompo:Array<JSX.Element> = []
     compo.forEach(comp => {

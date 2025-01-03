@@ -5,14 +5,14 @@ import Scale from './Scale';
 export default function Plus() {
     let [fetched, setFetched] = useState<JSX.Element[]>([]);
     
-    function NewComponent(name: string, kind: string, size: number){
+    function newComponent(name: string, kind: string, size: number){
         //Api call to add a new component (fields)
         fetch("http://localhost:3000/fields?name=" + name + "&kind=" + kind + "&size=" + size, 
             {"method":"POST"}
         )
     }
 
-    function FetchComponent(){
+    function fetchComponent(){
         //Fetch the last created component
         let listCompo:JSX.Element = <></>;
     
@@ -34,9 +34,9 @@ export default function Plus() {
         return(listCompo)
     }
 
-    function HandleButtonClick(){
-        NewComponent("toto", "scale", Math.random()*8+1); 
-        FetchComponent();
+    function handleButtonClick(){
+        newComponent("toto", "scale", Math.random()*8+1); 
+        fetchComponent();
     }
 
     return (
@@ -44,7 +44,7 @@ export default function Plus() {
             {fetched} 
 
             <div className="flex">
-                <button onClick={HandleButtonClick} className="grow bg-zinc-800 mx-1 md:mx-24 xl:mx-60 my-2 p-4 py-10 rounded-xl hover:bg-opacity-80">
+                <button onClick={handleButtonClick} className="grow bg-zinc-800 mx-1 md:mx-24 xl:mx-60 my-2 p-4 py-10 rounded-xl hover:bg-opacity-80">
                     <a className="font-bold text-2xl">+ Create</a>
                 </button>
             </div>

@@ -1,9 +1,10 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import '../index.css'
 import Scale from './Scale';
+import { useStore } from './Store/elems';
 
 export default function Plus() {
-    let [fetched, setFetched] = useState<JSX.Element[]>([]);
+    const { add } = useStore()
     
     function newComponent(name: string, kind: string, size: number){
         //Api call to add a new component (fields)
@@ -25,7 +26,7 @@ export default function Plus() {
                 data.forEach((comp: any)=> {
                     switch(comp['kind']){
                         case 'scale':
-                            setFetched((old) => [...old, <Scale n={comp['size']} key={comp['id']} />])
+                            add(<Scale n={comp['size']} key={comp['id']} />)
                     }
                 });
             })
@@ -41,8 +42,6 @@ export default function Plus() {
 
     return (
         <>
-            {fetched} 
-
             <div className="flex">
                 <button onClick={handleButtonClick} className="grow bg-zinc-800 mx-1 md:mx-24 xl:mx-60 my-2 p-4 py-10 rounded-xl hover:bg-opacity-80">
                     <a className="font-bold text-2xl">+ Create</a>

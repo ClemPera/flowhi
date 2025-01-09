@@ -1,12 +1,12 @@
 import '../index.css'
 import { useElems } from './Store/elems';
-import { api } from "./api";
+import { fieldsApi } from "./fieldsApi";
 
 export default function Plus() {
     const { addLast } = useElems()
 
     function handleButtonClick(){
-        api.put("toto", "scale", Math.random()*8+1)
+        fieldsApi.put("toto", "scale", Math.random()*8+1)
         addLast();
     }
 

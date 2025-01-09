@@ -1,5 +1,5 @@
 import { create } from 'zustand'
-import { api } from "../api";
+import { fieldsApi } from "../fieldsApi";
 
 type Scale = {
     id: number; 
@@ -22,11 +22,10 @@ export const useElems = create<Store>()(
             elems: [],
 
             addAll: async () => {
-                api.getAll().then((getElem) => {
+                fieldsApi.getAll().then((getElem) => {
                     getElem.forEach(comp => {
                         switch (comp['kind']) {
                             case 'scale':
-                                // set((state) => ({ elems: [...state.elems, <Scale n={comp['size']} key={comp['id']}/>] }));
                                 set((state) => ({ elems: [...state.elems, { size: comp['size'], id: comp['id'] }] }));
                         }
                     })
@@ -34,11 +33,10 @@ export const useElems = create<Store>()(
             },
 
             addLast: () => {
-                api.getLast().then((getElem) => {
+                fieldsApi.getLast().then((getElem) => {
                     let comp = getElem[0];
                     switch (comp['kind']) {
                         case 'scale':
-                            // set((state) => ({ elems: [...state.elems, <Scale n={comp['size']} key={comp['id']}/>] }));
                             set((state) => ({ elems: [...state.elems, { size: comp['size'], id: comp['id'] }] }));
                     }
                 })

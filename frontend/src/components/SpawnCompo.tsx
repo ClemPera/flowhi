@@ -11,14 +11,12 @@ export default function SpawnCompo() {
             addAll();
             hasRun.current = true;
         }
-        
     }, [])
-
 
     return(
         <>
             {elems.map((elem) => (
-                <Scale key={elem.id} n={elem.size} />
+                <Scale key={elem.id} n={elem.size} elemId={elem.id}/>
             ))}
         </>
     )

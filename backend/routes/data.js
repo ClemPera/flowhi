@@ -26,31 +26,43 @@ router.get('/', function(req, res) {
 
 //New data
 router.post('/', (req, res) => {
-  let champsId=req.query['champsId'];
+  let fieldId=req.query['fieldId'];
   let data=req.query['data'];
-  
-  conn.query('INSERT INTO data (champsId, data) VALUES (?,?)', [champsId, data], function (error, results, fields) {
+  // console.log("fieldId: " + fieldId + " data: " + data);
+  conn.query('SELECT * FROM data WHERE champsId=?', [fieldId], function(error, results, fields) {
     if (error) {
       console.log(error);
       res.send(500);
     }
-    else
-      res.send(200);
-  })
+    else{
+      if(results.length === 0){ //If doesn't exist
+        conn.query('INSERT INTO data (champsId, data) VALUES (?,?)', [fieldId, data], function (error, results, fields) {
+          if (error) {
+            console.log(error);
+            res.send(500);
+          }
+          else
+            res.send(200);
+        })
+      }
+      else{ //If exist
+        conn.query('UPDATE data SET data=? WHERE champsId=?', [data, fieldId], function (error, results, fields) {
+          if (error) {
+            console.log(error);
+            res.send(500);
+          }
+          else
+            res.send(200);
+        })
+      }
+    }
+  });
 });
 
 //Update data
 router.put('/', (req, res) => {
-  let id=req.query['id'];
+  let fieldId=req.query['fieldId'];
   let data=req.query['data'];
-  
-  conn.query('UPDATE data SET data=? WHERE id=?', [data, id], function (error, results, fields) {
-    if (error) {
-      console.log(error);
-      res.send(500);
-    }
-    else
-      res.send(200);
-  })
+
 });
 module.exports = router;

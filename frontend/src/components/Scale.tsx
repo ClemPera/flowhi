@@ -1,6 +1,7 @@
 import '../index.css'
+import { dataApi } from './dataApi';
 
-export default function Scale( {n}: {n: number} ) {
+export default function Scale( {n, elemId}: {n: number, elemId: number} ) {
     let items: any = [];
     let id = 0;
 
@@ -32,9 +33,8 @@ export default function Scale( {n}: {n: number} ) {
         )
     }
     
-    function updateStatus(id: number){
-        //TODO : Call the api with id
-        
+    function updateStatus(PointId: number){
+        dataApi.post(elemId, PointId);
     }
 
     return (

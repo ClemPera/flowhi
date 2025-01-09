@@ -1,5 +1,4 @@
-
-export class api {
+export class fieldsApi {
     static async getAll(): Promise<any[]> {
         let data:any[] = [];
         await fetch("http://localhost:3000/fields", { "method": "GET" })

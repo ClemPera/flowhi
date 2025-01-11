@@ -3,13 +3,16 @@ import '../index.css'
 import { dataApi } from './dataApi';
 
 export default function Scale( {n, elemId}: {n: number, elemId: number} ) {
-    let [selected, setSelected] = useState(0);
+    let [selected, setSelected] = useState(-1);
 
     let items: any = [];
     let id = 0;
 
     dataApi.get(elemId).then((d: any) => {
-        setSelected(d['data']);
+        if(d[0] !== -1)
+            setSelected(d['data']);
+        else
+            setSelected(-1);
     })
 
     //List points

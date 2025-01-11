@@ -1,3 +1,4 @@
+require('dotenv').config()
 var express = require('express');
 var mysql = require('mysql');
 var router = express.Router();
@@ -5,7 +6,7 @@ var router = express.Router();
 var conn = mysql.createConnection({
   host: "localhost",
   user: "root",
-  password: "Seven*Subway*Jinn*Poseidon",
+  password: process.env.MARIADB_PASSWORD,
   database: "wellbeing"
 });
 

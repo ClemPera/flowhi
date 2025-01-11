@@ -6,7 +6,7 @@ type Scale = {
     size: number;
 };
 
-type Elem = Scale;
+export type Elem = Scale &{ kind: String };
 
 type Store = {
     elems: Array<Elem>
@@ -27,7 +27,7 @@ export const useElems = create<Store>()(
                     getElem.forEach(comp => {
                         switch (comp['kind']) {
                             case 'scale':
-                                set((state) => ({ elems: [...state.elems, { size: comp['size'], id: comp['id'] }] }));
+                                set((state) => ({ elems: [...state.elems, { size: comp['size'], id: comp['id'], kind: comp['kind'] }] }));
                         }
                     })
                 })
@@ -38,7 +38,8 @@ export const useElems = create<Store>()(
                     let comp = getElem[0];
                     switch (comp['kind']) {
                         case 'scale':
-                            set((state) => ({ elems: [...state.elems, { size: comp['size'], id: comp['id'] }] }));
+                            set((state) => ({ elems: [...state.elems, { size: comp['size'], id: comp['id'], kind: comp['kind'] }] }));
+                            break;
                     }
                 })
             },

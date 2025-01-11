@@ -1,6 +1,6 @@
 import { useEffect, useRef} from "react";
 import { useElems } from "./Store/elems";
-import Scale from "./Scale";
+import CompoHolder from "./CompoHolder";
 
 export default function SpawnCompo() {
     const { elems, addAll } = useElems()
@@ -16,7 +16,7 @@ export default function SpawnCompo() {
     return(
         <>
             {elems.map((elem) => (
-                <Scale key={elem.id} n={elem.size} elemId={elem.id}/>
+                <CompoHolder elem={elem} key={elem.id}></CompoHolder>
             ))}
         </>
     )

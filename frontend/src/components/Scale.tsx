@@ -48,9 +48,9 @@ export default function Scale( {n, elemId}: {n: number, elemId: number} ) {
     }
 
     return (
-        <div className="flex bg-zinc-800 mx-1 md:mx-24 xl:mx-60 my-2 p-4 pb-5 rounded-xl place-content-center">
+        <>
             {items}
-        </div>
+        </>
     )
 }
 

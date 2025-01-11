@@ -12,9 +12,9 @@ var conn = mysql.createConnection({
 conn.connect();
 
 router.get('/', function(req, res) {
-  let id=req.query['id'];
+  let id=req.query['fieldId'];
 
-  conn.query('SELECT * FROM data WHERE id=?', [id], function (error, results, fields) {
+  conn.query('SELECT * FROM data WHERE champsId=?', [id], function (error, results, fields) {
     if (error) {
       console.log(error);
       res.send(500);
@@ -46,6 +46,7 @@ router.post('/', (req, res) => {
         })
       }
       else{ //If exist
+        //Add gestion des jours (if exist for $day)
         conn.query('UPDATE data SET data=? WHERE champsId=?', [data, fieldId], function (error, results, fields) {
           if (error) {
             console.log(error);

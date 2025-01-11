@@ -6,7 +6,7 @@ type Scale = {
     size: number;
 };
 
-type Elem = Scale
+type Elem = Scale;
 
 type Store = {
     elems: Array<Elem>
@@ -14,6 +14,7 @@ type Store = {
     addAll: () => void
     addLast: () => void
     add: (elem: Elem) => void
+    remove: (elem: Elem) => void
     clear: () => void
 }
 
@@ -44,6 +45,10 @@ export const useElems = create<Store>()(
 
             add: (elem) => {
                 set((state) => ({ elems: [...state.elems, elem] }));
+            },
+
+            remove: (elem) => {
+                set((state) => ({ elems: state.elems.filter((e) => e.id!==elem.id)}));
             },
 
             clear: () => {

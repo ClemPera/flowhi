@@ -36,4 +36,10 @@ export class fieldsApi {
             {"method":"POST"}
         )
     }
+    
+    static async delete(id: number){
+        fetch("http://localhost:3000/fields?id=" + id,
+            {"method":"DELETE"}
+        )
+    }
 }

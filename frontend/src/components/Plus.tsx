@@ -6,7 +6,7 @@ export default function Plus() {
     const { addLast } = useElems()
 
     function handleButtonClick(){
-        fieldsApi.put("toto", "scale", Math.random()*8+1)
+        fieldsApi.put("toto", "scale", Math.random()*6+1)
         addLast();
     }
 

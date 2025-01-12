@@ -14,7 +14,7 @@ type Store = {
     addAll: () => void
     addLast: () => void
     add: (elem: Elem) => void
-    remove: (elem: Elem) => void
+    remove: (id: number) => void
     clear: () => void
 }
 
@@ -48,8 +48,8 @@ export const useElems = create<Store>()(
                 set((state) => ({ elems: [...state.elems, elem] }));
             },
 
-            remove: (elem) => {
-                set((state) => ({ elems: state.elems.filter((e) => e.id!==elem.id)}));
+            remove: (id) => {
+                set((state) => ({ elems: state.elems.filter((e) => e.id!==id)}));
             },
 
             clear: () => {

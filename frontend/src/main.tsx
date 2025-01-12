@@ -5,8 +5,8 @@ import App from './App.tsx'
 import Navbar from './components/Navbar.tsx'
 
 createRoot(document.getElementById('root')!).render(
-<StrictMode>
-    <Navbar />
-    <App />
+  <StrictMode>
+      <Navbar/>
+      <App/>
   </StrictMode>,
 )

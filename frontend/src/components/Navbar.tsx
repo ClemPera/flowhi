@@ -6,6 +6,7 @@ export default function App() {
             <nav className="flex bg-zinc-800 bg-opacity-40 mx-5 md:mx-40 xl:mx-80 my-2 p-4 pb-5 rounded-2xl">
                 <div className="flex-1">
                     <a href="/">
+                    {/* Put h1 instead of <a>? at least for the title*/}
                         [img] myapp
                     </a>
                 </div>

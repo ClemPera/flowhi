@@ -18,7 +18,7 @@ function App() {
         document.addEventListener('click', handleWindowClick);
 
         return () => {
-            window.removeEventListener('click', handleWindowClick);
+            document.removeEventListener('click', handleWindowClick);
         }
     });
 

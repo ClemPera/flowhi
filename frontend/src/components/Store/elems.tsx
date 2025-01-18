@@ -2,8 +2,8 @@ import { create } from 'zustand'
 import { fieldsApi } from "../fieldsApi";
 
 type Scale = {
-    name: String, 
     id: number; 
+    name: String, 
     size: number;
 };
 

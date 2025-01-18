@@ -5,12 +5,12 @@ import SpawnCompo from './components/SpawnCompo';
 import Popup from './components/Popup';
 
 function App() {
-    const [popupEnabled, usePopupEnabled] = useState<boolean>(false);
+    const [popupEnabled, setPopupEnabled] = useState<boolean>(false);
     
     const handleWindowClick = (e: MouseEvent) => {
-        if(!(e.target.closest('#button') || e.target.closest('#popup'))){
+        if(!e.target.closest('#button') && !e.target.closest('#popup')){
             console.log("disabled")
-            usePopupEnabled(false);
+            setPopupEnabled(false);
         }
     };
 
@@ -28,10 +28,10 @@ function App() {
                 <div className={popupEnabled ? 'pointer-events-none blur' : ''} >
                     {/* if input outside, quit menu */}
                     <SpawnCompo/>
-                    <Plus usePopupEnabled={usePopupEnabled}/>
+                    <Plus setPopupEnabled={setPopupEnabled}/>
                 </div>
             </div>
-            {popupEnabled && <Popup></Popup>}
+            {popupEnabled && <Popup setPopupEnabled={setPopupEnabled}></Popup>}
         </>
     )
 }

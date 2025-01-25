@@ -10,7 +10,7 @@ export default function App() {
                 </a>
                 <div className="flex-grow ml-2">
                     <a href="/" className=''>
-                        <h1 className="">myapp</h1>
+                        <h1 className="">flowhi</h1>
                     </a>
                 </div>
 

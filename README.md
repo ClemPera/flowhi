@@ -1,4 +1,4 @@
-# <img src="/frontend/src/assets/logo.svg" alt="logo" width="45" /> flowhi 
+# <img src="/frontend/public/logo.svg" alt="logo" width="45" /> flowhi 
 
 flowhi (フロー日) is a -in developpement- task tracking with weekly goals
 

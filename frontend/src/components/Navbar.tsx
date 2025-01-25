@@ -1,17 +1,20 @@
 import '../index.css'
+import logo from '../assets/logo.svg'
 
 export default function App() {
     return (
         <>
-            <nav className="flex bg-zinc-800 bg-opacity-40 mx-5 md:mx-40 xl:mx-80 my-2 p-4 pb-5 rounded-2xl">
-                <div className="flex-1">
-                    <a href="/">
-                    {/* Put h1 instead of <a>? at least for the title*/}
-                        [img] myapp
+            <nav className="flex bg-zinc-800 bg-opacity-40  md:mx-40 xl:mx-80 my-2 p-4 px-8 pb-5 rounded-2xl">
+                <a href="/" className=''>
+                    <img className='h-8 w-8' src={logo} alt="website logo - sun with flow under (white)"/>
+                </a>
+                <div className="flex-grow ml-2">
+                    <a href="/" className=''>
+                        <h1 className="">myapp</h1>
                     </a>
                 </div>
 
-                <div className="flex-2">
+                <div className="">
                     <a href="/login" className="ml-auto font-bold">
                         Sign in
                     </a>

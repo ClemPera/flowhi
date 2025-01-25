@@ -1,13 +1,13 @@
 # <img src="/frontend/public/logo.svg" alt="logo" width="45" /> flowhi 
 
-flowhi (フロー日) is a -in developpement- task tracking with weekly goals
+flowhi (フロー日) is a -in developpement- task tracker website with weekly goals
 
 ## Tech 
-Frontend: Vite.js + React + Tailwind
+**Frontend**: Vite.js + React + Tailwind
 
-Backend: Node.js + Express.js
+**Backend**: Node.js + Express.js
 
-DB: Mysql
+**Database**: Mysql
 
 ## A few images
 <img src="https://github.com/user-attachments/assets/c5d0e666-0974-4e9f-897d-40ddb3ac49c1" alt="Main page" width="500" />

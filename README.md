@@ -1,4 +1,4 @@
-# wellbeing
+# flowhi (フロー日)
 
 Frontend: Vite.js+React
 Backend:Express.js

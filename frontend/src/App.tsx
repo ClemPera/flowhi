@@ -1,16 +1,18 @@
-import './index.css'
-import { useEffect, useState } from 'react';
+import './index.css';
+import { useEffect } from 'react';
 import Plus from './components/Plus'
 import SpawnCompo from './components/SpawnCompo';
-import Popup from './components/Popup';
+import CreatePopup from './components/CreatePopup';
+import { useGeneral } from "./components/Store/general";
+import DeletePopup from './components/DeletePopup';
 
 function App() {
-    const [popupEnabled, setPopupEnabled] = useState<boolean>(false);
+    const { createPopUp: popUp, setCreatePopup, setDeletePopup, deletePopUp } = useGeneral();
     
     const handleWindowClick = (e: MouseEvent) => {
         if(!e.target.closest('#button') && !e.target.closest('#popup')){
-            console.log("disabled")
-            setPopupEnabled(false);
+            setDeletePopup(false);
+            setCreatePopup(false);
         }
     };
 
@@ -25,13 +27,13 @@ function App() {
     return (
         <>
             <div>
-                <div className={popupEnabled ? 'pointer-events-none blur' : ''} >
-                    {/* if input outside, quit menu */}
+                <div className={popUp||deletePopUp ? 'pointer-events-none blur' : ''} >
                     <SpawnCompo/>
-                    <Plus setPopupEnabled={setPopupEnabled}/>
+                    <Plus/>
                 </div>
             </div>
-            {popupEnabled && <Popup setPopupEnabled={setPopupEnabled}></Popup>}
+            {popUp && <CreatePopup></CreatePopup>}
+            {deletePopUp && <DeletePopup></DeletePopup>}
         </>
     )
 }

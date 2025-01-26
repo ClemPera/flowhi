@@ -1,4 +1,4 @@
-import { create } from 'zustand'
+import { create } from 'zustand';
 import { fieldsApi } from "../fieldsApi";
 
 type Scale = {
@@ -20,41 +20,41 @@ type Store = {
 }
 
 export const useElems = create<Store>()(
-        (set) => ({
-            elems: [],
+    (set) => ({
+        elems: [],
 
-            addAll: async () => {
-                fieldsApi.getAll().then((getElem) => {
-                    getElem.forEach(comp => {
-                        switch (comp['kind']) {
-                            case 'scale':
-                                set((state) => ({ elems: [...state.elems, { size: comp['size'], id: comp['id'], kind: comp['kind'], name: comp['name'] }] }));
-                        }
-                    })
-                })
-            },
-
-            addLast: () => {
-                fieldsApi.getLast().then((getElem) => {
-                    let comp = getElem[0];
+        addAll: async () => {
+            fieldsApi.getAll().then((getElem) => {
+                getElem.forEach(comp => {
                     switch (comp['kind']) {
                         case 'scale':
                             set((state) => ({ elems: [...state.elems, { size: comp['size'], id: comp['id'], kind: comp['kind'], name: comp['name'] }] }));
-                            break;
                     }
                 })
-            },
+            })
+        },
 
-            add: (elem) => {
-                set((state) => ({ elems: [...state.elems, elem] }));
-            },
+        addLast: () => {
+            fieldsApi.getLast().then((getElem) => {
+                let comp = getElem[0];
+                switch (comp['kind']) {
+                    case 'scale':
+                        set((state) => ({ elems: [...state.elems, { size: comp['size'], id: comp['id'], kind: comp['kind'], name: comp['name'] }] }));
+                        break;
+                }
+            })
+        },
 
-            remove: (id) => {
-                set((state) => ({ elems: state.elems.filter((e) => e.id!==id)}));
-            },
+        add: (elem) => {
+            set((state) => ({ elems: [...state.elems, elem] }));
+        },
 
-            clear: () => {
-                set(() => ({ elems: [] }));
-            }
-        })
+        remove: (id) => {
+            set((state) => ({ elems: state.elems.filter((e) => e.id!==id)}));
+        },
+
+        clear: () => {
+            set(() => ({ elems: [] }));
+        }
+    })
 )

@@ -12,7 +12,7 @@ export default function CompoHolder( {elem}: {elem: Elem} ) {
                             <h2 className="font-bold text-xl">{elem.name}</h2>
                         </div>
                         <div className="col-span-1 flex-auto w-4 absolute top-0.5 right-3">
-                            <Bin id={elem.id}/>
+                            <Bin elem={elem}/>
                         </div>
                     </div>
                     <div className="place-content-center">

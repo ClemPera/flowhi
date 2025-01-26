@@ -1,13 +1,14 @@
-import { fieldsApi } from "./fieldsApi"
-import { useElems } from "./Store/elems";
+import { Elem } from "./Store/elems";
 import TrashIcon from '@mui/icons-material/DeleteOutlineRounded';
+import { useGeneral } from "./Store/general";
 
-export default function Bin( {id}: {id: number} ) {
-    const { remove } = useElems();
+export default function Bin( {elem}: {elem: Elem} ) {
+    let { setDeletePopup, setDeleteInfos } = useGeneral();
 
-    function handleClick(){
-        remove(id);
-        fieldsApi.delete(id);
+    let handleClick = (e: React.MouseEvent) => {
+        setDeleteInfos(elem);
+        setDeletePopup(true);
+        e.stopPropagation();
     }
 
     return (

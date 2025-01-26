@@ -3,19 +3,20 @@ import { useElems } from './Store/elems';
 import ArrowUp from '@mui/icons-material/ExpandLess';
 import ArrowBot from '@mui/icons-material/ExpandMore';
 import { fieldsApi } from './fieldsApi';
+import { useGeneral } from './Store/general';
 
-export default function Popup({setPopupEnabled}: {setPopupEnabled: (v: boolean) => void} ) {
-    const { addLast } = useElems()
+export default function CreatePopup() {
+    const { setCreatePopup: setPopup } = useGeneral();
+    const { addLast } = useElems();
     
-    const nbrs = ['Two','Three', 'Four', 'Five', 'Six', 'Seven','Eight']
-    const min = 2
+    const nbrs = ['Two','Three', 'Four', 'Five', 'Six', 'Seven','Eight'];
+    const min = 2;
     const max = nbrs.length;
-
+    
     let inputRef = useRef<HTMLInputElement | null>(null);
     let [name, setName] = useState("");
     let [nbr, setNbr] = useState(min);
     let [first, setFirst] = useState(true);
-
     
     useEffect(() => {
         inputRef.current?.focus();
@@ -43,7 +44,7 @@ export default function Popup({setPopupEnabled}: {setPopupEnabled: (v: boolean) 
     let handleValidClick = () => {
         fieldsApi.put(name, 'scale', nbr);
         addLast();
-        setPopupEnabled(false);
+        setPopup(false);
     }
 
     function Scale(){
@@ -71,7 +72,7 @@ export default function Popup({setPopupEnabled}: {setPopupEnabled: (v: boolean) 
     }
 
     function First(){
-        return(
+        return (
             <>
                 <h3 className='text-xl text-center w-full'>Choose your module</h3>
                 <div className='flex-grow bg-zinc-900 h-0.5 w-full my-2'></div>

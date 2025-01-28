@@ -29,12 +29,15 @@ export class fieldsApi {
         return data
     }
 
-    static async put(name: string, kind: string, size: number){
+    static async post(name: string, kind: string, size: number){
+        if(name.length > 25) return 1;
+
         fetch("http://localhost:3000/fields?name=" + name 
                 + "&kind=" + kind 
                 + "&size=" + size, 
             {"method":"POST"}
         )
+        return 0;
     }
     
     static async delete(id: number){

@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { fieldsApi } from "../fieldsApi";
+import { fieldsApi } from "../Api/fieldsApi";
 
 type Scale = {
     id: number; 

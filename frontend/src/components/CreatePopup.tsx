@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { useElems } from './Store/elems';
 import ArrowUp from '@mui/icons-material/ExpandLess';
 import ArrowBot from '@mui/icons-material/ExpandMore';
-import { fieldsApi } from './fieldsApi';
+import { fieldsApi } from './Api/fieldsApi';
 import { useGeneral } from './Store/general';
 
 export default function CreatePopup() {
@@ -17,6 +17,7 @@ export default function CreatePopup() {
     let [name, setName] = useState("");
     let [nbr, setNbr] = useState(min);
     let [first, setFirst] = useState(true);
+    let [err, setErr] = useState(false);
     
     useEffect(() => {
         inputRef.current?.focus();
@@ -41,10 +42,15 @@ export default function CreatePopup() {
         e.stopPropagation();
     }
 
-    let handleValidClick = () => {
-        fieldsApi.put(name, 'scale', nbr);
-        addLast();
-        setPopup(false);
+    let handleValidClick = async (e: React.MouseEvent) => {
+        if(await fieldsApi.post(name, 'scale', nbr) == 0){
+            addLast();
+            setPopup(false);
+        }
+        else{
+            setErr(true);
+            e.stopPropagation();
+        }
     }
 
     function Scale(){
@@ -53,7 +59,7 @@ export default function CreatePopup() {
                 <h3 className='text-xl text-center w-full'>Scale</h3>
                 <div className='flex-grow bg-zinc-900 h-0.5 w-full my-2'></div>
                 <div className="flex flex-col h-full w-full gap-1 overflow-y-auto">
-                    <input ref={inputRef} onChange={(e) => setName(e.target.value)} value={name} placeholder="Name" className="bg-zinc-900 rounded-xl p-3 focus:outline-none h-full w-full" type="text"/>
+                    <input ref={inputRef} onChange={(e) => setName(e.target.value)} value={name} placeholder="Name" className={(err ? "bg-red-800" : "bg-zinc-900") + " rounded-xl p-3 focus:outline-none h-full w-full "} type="text"/>
                     <div className="h-full w-full flex flex-row">
                         <div className="flex flex-row bg-zinc-900 rounded-xl p-3 mr-2 h-full w-2/3">
                             <p className='text-slate-300 opacity-80 place-content-center'>One to&nbsp;</p>
@@ -65,7 +71,7 @@ export default function CreatePopup() {
                             <button onClick={handleArrowDownClick} className='h-full w-full'><ArrowBot fontSize='large' className='bg-zinc-900 place-self-center'/></button>
                         </div>
                     </div>
-                        <button onClick={() => handleValidClick()}  className="p-2 mt-2 h-full w-full font-bold bg-zinc-950 rounded-xl place-content-center">Valider</button>
+                        <button onClick={handleValidClick}  className="p-2 mt-2 h-full w-full font-bold bg-zinc-950 rounded-xl place-content-center">Valider</button>
                 </div>
             </>
         )

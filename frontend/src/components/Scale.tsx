@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import '../index.css'
-import { dataApi } from './dataApi';
+import { dataApi } from './Api/dataApi';
 
 export default function Scale( {n, elemId}: {n: number, elemId: number} ) {
     let [selected, setSelected] = useState(-1);

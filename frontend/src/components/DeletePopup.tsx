@@ -1,6 +1,6 @@
 import { DeleteInfos, useGeneral } from './Store/general';
 import { useElems } from "./Store/elems";
-import { fieldsApi } from './fieldsApi';
+import { fieldsApi } from './Api/fieldsApi';
 
 export default function DeletePopup() {
     const { remove } = useElems();

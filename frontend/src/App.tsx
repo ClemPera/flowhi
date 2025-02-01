@@ -27,7 +27,7 @@ function App() {
     return (
         <>
             <div>
-                <div className={popUp||deletePopUp ? 'pointer-events-none blur' : ''} >
+                <div className={popUp||deletePopUp ? 'pointer-events-none blur-sm' : ''} >
                     <SpawnCompo/>
                     <Plus/>
                 </div>

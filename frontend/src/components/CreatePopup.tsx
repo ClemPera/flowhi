@@ -57,9 +57,9 @@ export default function CreatePopup() {
         return(
             <>
                 <h3 className='text-xl text-center w-full'>Scale</h3>
-                <div className='flex-grow bg-zinc-900 h-0.5 w-full my-2'></div>
+                <div className='grow bg-zinc-900 h-0.5 w-full my-2'></div>
                 <div className="flex flex-col h-full w-full gap-1 overflow-y-auto">
-                    <input ref={inputRef} onChange={(e) => setName(e.target.value)} value={name} placeholder="Name" className={(err ? "bg-red-800" : "bg-zinc-900") + " rounded-xl p-3 focus:outline-none h-full w-full "} type="text"/>
+                    <input ref={inputRef} onChange={(e) => setName(e.target.value)} value={name} placeholder="Name" className={(err ? "bg-red-800" : "bg-zinc-900") + " rounded-xl p-3 focus:outline-hidden h-full w-full "} type="text"/>
                     <div className="h-full w-full flex flex-row">
                         <div className="flex flex-row bg-zinc-900 rounded-xl p-3 mr-2 h-full w-2/3">
                             <p className='text-slate-300 opacity-80 place-content-center'>One to&nbsp;</p>
@@ -67,7 +67,7 @@ export default function CreatePopup() {
                         </div>
                         <div className='flex flex-col rounded-xl h-full w-1/3 bg-zinc-900 place-content-center py-1'>
                             <button onClick={handleArrowUpClick} className='h-full w-full'><ArrowUp fontSize='large' className='bg-zinc-900 place-self-center'/></button>
-                            <div className='flex-grow bg-white h-0.5 w-full my-2'></div>
+                            <div className='grow bg-white h-0.5 w-full my-2'></div>
                             <button onClick={handleArrowDownClick} className='h-full w-full'><ArrowBot fontSize='large' className='bg-zinc-900 place-self-center'/></button>
                         </div>
                     </div>
@@ -81,7 +81,7 @@ export default function CreatePopup() {
         return (
             <>
                 <h3 className='text-xl text-center w-full'>Choose your module</h3>
-                <div className='flex-grow bg-zinc-900 h-0.5 w-full my-2'></div>
+                <div className='grow bg-zinc-900 h-0.5 w-full my-2'></div>
                 <div className="flex flex-col h-full w-full gap-1 overflow-y-auto">
                     <button onClick={handleScaleClick} className='flex-1 h-full w-full bg-zinc-900 rounded-xl place-content-center'>Scale</button>
                     <button className='flex-1 h-full w-full bg-zinc-900 rounded-xl place-content-center'>choice 2</button>

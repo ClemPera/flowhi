@@ -8,7 +8,7 @@ export default function App() {
                 <a href="/" className='-translate-y-0.5'>
                     <img className='h-8 w-8' src={logo} alt="website logo - sun with flow under (white)"/>
                 </a>
-                <div className="flex-grow ml-2">
+                <div className="grow ml-2">
                     <a href="/" className=''>
                         <h1 className="">flowhi</h1>
                     </a>

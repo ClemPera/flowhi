@@ -23,7 +23,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 //Enable cors
 let corsOptions = {
-  origin : ['http://localhost:5173'],
+  origin : [/^http:\/\/localhost:\d+$/],
 }
 app.use(cors(corsOptions))
 

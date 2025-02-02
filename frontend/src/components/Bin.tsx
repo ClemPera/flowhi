@@ -12,6 +12,6 @@ export default function Bin( {elem}: {elem: Elem} ) {
     }
 
     return (
-        <button onClick={handleClick}><TrashIcon fontSize="medium" sx={{ color: "#ff0000" }}/></button>
+        <button onClick={handleClick} className="btn"><TrashIcon fontSize="medium" sx={{ color: "#ff0000" }}/></button>
     )
 }

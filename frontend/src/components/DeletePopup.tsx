@@ -20,7 +20,7 @@ export default function DeletePopup() {
                 <h3 className='text-xl text-center w-full'>Delete{deleteInfos.name && ' "' + deleteInfos.name + '"' }?</h3>
                 <div className='grow bg-zinc-900 h-0.5 w-full my-2'></div>
                 <div className="flex flex-col h-full w-full gap-1 overflow-y-auto">
-                    <button onClick={handleClick} className='flex-1 h-full w-full bg-red-600 rounded-xl place-content-center'>Confirm</button>
+                    <button onClick={handleClick} className='flex-1 h-full w-full bg-red-600 rounded-xl place-content-center btn'>Confirm</button>
                 </div>
             </div>
         </>

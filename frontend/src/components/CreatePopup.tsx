@@ -57,8 +57,8 @@ export default function CreatePopup() {
         return(
             <>
                 <h3 className='text-xl text-center w-full'>Scale</h3>
-                <div className='grow bg-zinc-900 h-0.5 w-full my-2'></div>
-                <div className="flex flex-col h-full w-full gap-1 overflow-y-auto">
+                <div className='grow bg-zinc-900 h-0.5 w-full my-2 mb-3'></div>
+                <div className="flex flex-col h-full w-full gap-2 pb-1 overflow-y-auto">
                     <input ref={inputRef} onChange={(e) => setName(e.target.value)} value={name} placeholder="Name" className={(err ? "bg-red-800" : "bg-zinc-900") + " rounded-xl p-3 focus:outline-hidden h-full w-full "} type="text"/>
                     <div className="h-full w-full flex flex-row">
                         <div className="flex flex-row bg-zinc-900 rounded-xl p-3 mr-2 h-full w-2/3">
@@ -66,12 +66,12 @@ export default function CreatePopup() {
                             <p className="place-content-center">{nbrs[nbr-min]}</p>
                         </div>
                         <div className='flex flex-col rounded-xl h-full w-1/3 bg-zinc-900 place-content-center py-1'>
-                            <button onClick={handleArrowUpClick} className='h-full w-full'><ArrowUp fontSize='large' className='bg-zinc-900 place-self-center'/></button>
+                            <button onClick={handleArrowUpClick} className='h-full w-full btn'><ArrowUp fontSize='large' className='bg-zinc-900 place-self-center'/></button>
                             <div className='grow bg-white h-0.5 w-full my-2'></div>
-                            <button onClick={handleArrowDownClick} className='h-full w-full'><ArrowBot fontSize='large' className='bg-zinc-900 place-self-center'/></button>
+                            <button onClick={handleArrowDownClick} className='h-full w-full btn'><ArrowBot fontSize='large' className='bg-zinc-900 place-self-center'/></button>
                         </div>
                     </div>
-                        <button onClick={handleValidClick}  className="p-2 mt-2 h-full w-full font-bold bg-zinc-950 rounded-xl place-content-center">Valider</button>
+                        <button onClick={handleValidClick}  className="p-2 mt-1 h-full w-full font-bold bg-zinc-950 rounded-xl place-content-center btn">Valider</button>
                 </div>
             </>
         )
@@ -80,11 +80,11 @@ export default function CreatePopup() {
     function First(){
         return (
             <>
-                <h3 className='text-xl text-center w-full'>Choose your module</h3>
-                <div className='grow bg-zinc-900 h-0.5 w-full my-2'></div>
-                <div className="flex flex-col h-full w-full gap-1 overflow-y-auto">
-                    <button onClick={handleScaleClick} className='flex-1 h-full w-full bg-zinc-900 rounded-xl place-content-center'>Scale</button>
-                    <button className='flex-1 h-full w-full bg-zinc-900 rounded-xl place-content-center'>choice 2</button>
+                <h3 className='text-xl text-center w-full'>Choose your element</h3>
+                <div className='grow bg-zinc-900 h-0.5 w-full my-2 mb-3'></div>
+                <div className="flex flex-col h-full w-full gap-2 pb-1 overflow-y-auto">
+                    <button onClick={handleScaleClick} className='flex-1 h-full w-full bg-zinc-900 rounded-xl place-content-center btn'>Scale</button>
+                    <button className='flex-1 h-full w-full bg-zinc-900 rounded-xl place-content-center btn'>choice 2</button>
                 </div>
             </>
         )

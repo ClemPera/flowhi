@@ -27,7 +27,7 @@ export default function Scale( {n, elemId}: {n: number, elemId: number} ) {
         if(id==selected)
             return <button onClick={() => updateStatus(id)} className="relative w-5 h-5 bg-transparent rounded-full border-4 border-white bg-white"></button>
         else
-            return <button onClick={() => updateStatus(id)} className="relative w-5 h-5 bg-transparent rounded-full border-4 border-white hover:bg-white focus:bg-white"></button>
+            return <button onClick={() => updateStatus(id)} className="relative w-5 h-5 bg-transparent rounded-full border-4 border-white hover:bg-white btn"></button>
     }
     
     function Line() {

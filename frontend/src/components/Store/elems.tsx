@@ -13,7 +13,7 @@ type Store = {
     elems: Array<Elem>
     
     addAll: () => void
-    addLast: () => void
+    addLast: () => number
     add: (elem: Elem) => void
     remove: (id: number) => void
     clear: () => void
@@ -23,7 +23,7 @@ export const useElems = create<Store>()(
     (set) => ({
         elems: [],
 
-        addAll: async () => {
+        addAll: () => {
             fieldsApi.getAll().then((getElem) => {
                 getElem.forEach(comp => {
                     switch (comp['kind']) {

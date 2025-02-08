@@ -26,6 +26,7 @@ function App() {
 
     return (
         <>
+            <Date/>
             <div className="">
                 <div className={popUp||deletePopUp ? 'pointer-events-none blur-sm' : ''} >
                     <SpawnCompo/>

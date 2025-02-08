@@ -1,27 +1,24 @@
-import { useEffect, useState } from "react"
+import { useEffect } from "react"
+import { useGeneral } from "./Store/general";
 
 export default function Calendar(){
-    const [date, setDate] = useState<Date>(new Date());
+    const {date, setDate} = useGeneral()
 
     useEffect(() => {
         setDate(new Date());
     }, [])
 
     function Before(){
-        setDate((oldDate) => {
-            const newDate = new Date(oldDate);
-            newDate.setDate(newDate.getDate() - 1);
-            return newDate; 
-          });
+        const newDate = new Date(date);
+        newDate.setDate(newDate.getDate() - 1);
+        setDate(newDate); 
     }
 
     function After(){
         if(date.setHours(0,0,0,0) < new Date().setHours(0,0,0,0)){
-            setDate((oldDate) => {
-                const newDate = new Date(oldDate);
-                newDate.setDate(newDate.getDate() + 1);
-                return newDate; 
-            });
+            const newDate = new Date(date);
+            newDate.setDate(newDate.getDate() + 1);
+            setDate(newDate); 
         }
     }
 

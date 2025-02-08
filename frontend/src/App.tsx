@@ -5,6 +5,7 @@ import SpawnCompo from './components/SpawnCompo';
 import CreatePopup from './components/CreatePopup';
 import { useGeneral } from "./components/Store/general";
 import DeletePopup from './components/DeletePopup';
+import Date from './components/Date';
 
 function App() {
     const { createPopUp: popUp, setCreatePopup, createPopUp, setDeletePopup, deletePopUp } = useGeneral();
@@ -28,9 +29,9 @@ function App() {
 
     return (
         <>
-            <Date/>
             <div className="">
                 <div className={popUp||deletePopUp ? 'pointer-events-none blur-sm' : ''} >
+                    <Date/>
                     <SpawnCompo/>
                     <Plus/>
                 </div>

@@ -9,10 +9,12 @@ type Store = {
     createPopUp: boolean
     deletePopUp: boolean
     deleteInfos: DeleteInfos
-
+    date: Date
+    
     setCreatePopup: (s: boolean) => void
     setDeletePopup: (s: boolean) => void
     setDeleteInfos: (infos: DeleteInfos) => void
+    setDate: (newDate: Date) => void 
 }
 
 export const useGeneral = create<Store>()(
@@ -20,6 +22,7 @@ export const useGeneral = create<Store>()(
         createPopUp: false,
         deletePopUp: false,
         deleteInfos: {id:-1, name: ''},
+        date: new Date(),
 
         setCreatePopup: (s) => {
             set(() => ({ createPopUp: s }));
@@ -31,6 +34,10 @@ export const useGeneral = create<Store>()(
 
         setDeleteInfos: (infos) => {
             set(() => ({ deleteInfos: infos }));
+        },
+
+        setDate: (newDate) => {
+            set(() => ({ date: newDate }))
         }
     })
 )

@@ -7,12 +7,14 @@ import { useGeneral } from "./components/Store/general";
 import DeletePopup from './components/DeletePopup';
 
 function App() {
-    const { createPopUp: popUp, setCreatePopup, setDeletePopup, deletePopUp } = useGeneral();
+    const { createPopUp: popUp, setCreatePopup, createPopUp, setDeletePopup, deletePopUp } = useGeneral();
     
     const handleWindowClick = (e: MouseEvent) => {
         if(!e.target.closest('#button') && !e.target.closest('#popup')){
-            setDeletePopup(false);
-            setCreatePopup(false);
+            if(createPopUp || deletePopUp){
+                setDeletePopup(false);
+                setCreatePopup(false);
+            }
         }
     };
 

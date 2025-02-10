@@ -29,15 +29,16 @@ router.get('/', function(req, res) {
 router.post('/', (req, res) => {
   let fieldId=req.query['fieldId'];
   let data=req.query['data'];
-  // console.log("fieldId: " + fieldId + " data: " + data);
+  let date=new Date(req.query['date']).setHours(0,0,0,0);
+
   conn.query('SELECT * FROM data WHERE champsId=?', [fieldId], function(error, results, fields) {
     if (error) {
       console.log(error);
       res.send(500);
     }
     else{
-      if(results.length === 0){ //If doesn't exist
-        conn.query('INSERT INTO data (champsId, data) VALUES (?,?)', [fieldId, data], function (error, results, fields) {
+      if(results.length === 0){ //If champsId doesn't exist
+        conn.query('INSERT INTO data (champsId, data, datetime) VALUES (?,?,?)', [fieldId, data, date], function (error, results, fields) {
           if (error) {
             console.log(error);
             res.send(500);
@@ -46,8 +47,14 @@ router.post('/', (req, res) => {
             res.send(200);
         })
       }
-      else{ //If exist
-        //Add gestion des jours (if exist for $day)
+      else{ //If champsId exist
+        //TODO: Add gestion des jours (if exist for $day)
+        let resultDate = new Date(results[0]['datetime']).setHours(0,0,0,0);
+
+        if(date === resultDate){
+          
+        }
+        
         conn.query('UPDATE data SET data=? WHERE champsId=?', [data, fieldId], function (error, results, fields) {
           if (error) {
             console.log(error);

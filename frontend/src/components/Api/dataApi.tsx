@@ -17,19 +17,10 @@ export class dataApi {
         return data
     }
         
-    static async post(fieldId: number, data: number){
-        //Check if existing
+    static async post(fieldId: number, data: number, date: Date){
         fetch("http://localhost:3000/data?fieldId=" + fieldId 
-            + "&data=" + data,
+            + "&data=" + data + "&date=" + date,
             {"method":"POST"}
         )
     }
-
-    // static async put(fieldId: number, data: number){
-    //     //Check if existing
-    //     fetch("http://localhost:3000/data?fieldId" + fieldId 
-    //         + "&data=" + data,
-    //         {"method":"PUT"}
-    //     )
-    // }
 }

@@ -1,8 +1,10 @@
 import { useState } from 'react';
 import '../index.css'
 import { dataApi } from './Api/dataApi';
+import { useGeneral } from './Store/general';
 
 export default function Scale( {n, elemId}: {n: number, elemId: number} ) {
+    const {date, setDate} = useGeneral()
     let [selected, setSelected] = useState(-1);
 
     let items: any = [];
@@ -10,6 +12,7 @@ export default function Scale( {n, elemId}: {n: number, elemId: number} ) {
 
     dataApi.get(elemId).then((d: any) => {
         if(d[0] !== -1)
+            // if(d[''])
             setSelected(d['data']);
         else
             setSelected(-1);
@@ -39,7 +42,7 @@ export default function Scale( {n, elemId}: {n: number, elemId: number} ) {
     }
     
     function updateStatus(PointId: number){
-        dataApi.post(elemId, PointId);
+        dataApi.post(elemId, PointId, date);
 
         setSelected(PointId);
     }

@@ -7,7 +7,7 @@ type Scale = {
     size: number;
 };
 
-export type Elem = Scale &{ kind: String };
+export type Elem = Scale & { kind: String,  };
 
 type Store = {
     elems: Array<Elem>

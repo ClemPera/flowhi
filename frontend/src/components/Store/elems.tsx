@@ -13,7 +13,7 @@ type Store = {
     elems: Array<Elem>
     
     addAll: () => void
-    addLast: () => number
+    addLast: () => void
     add: (elem: Elem) => void
     remove: (id: number) => void
     clear: () => void

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import '../index.css'
 import { dataApi } from './Api/dataApi';
 import { useGeneral } from './Store/general';
@@ -10,13 +10,19 @@ export default function Scale( {n, elemId}: {n: number, elemId: number} ) {
     let items: any = [];
     let id = 0;
 
-    dataApi.get(elemId, date).then((d: any) => {
-        if(d[0] !== -1)
-            // if(d[''])
-            setSelected(d['data']);
-        else
-            setSelected(-1);
-    })
+    //**If this is causing too much charge on the server side**
+    //You should remove everything and add everything back following the date
+    //You also should get all the data at the same time as the fields 
+    //  and bind it to the elem
+    useEffect(() => {
+        dataApi.get(elemId, date).then((d: any) => {
+            if(d[0] !== -1)
+                setSelected(d['data']);
+            else
+                setSelected(-1);
+        })
+    }, [date])
+
 
     for(let i: number = 0; i < n; i++){
         if(i != 0) {

@@ -10,7 +10,7 @@ export default function Scale( {n, elemId}: {n: number, elemId: number} ) {
     let items: any = [];
     let id = 0;
 
-    dataApi.get(elemId).then((d: any) => {
+    dataApi.get(elemId, date).then((d: any) => {
         if(d[0] !== -1)
             // if(d[''])
             setSelected(d['data']);

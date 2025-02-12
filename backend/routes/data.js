@@ -14,8 +14,9 @@ conn.connect();
 
 router.get('/', function(req, res) {
   let id=req.query['fieldId'];
+  let date=new Date(req.query['date']).toISOString().split("T")[0];
 
-  conn.query('SELECT * FROM data WHERE champsId=?', [id], function (error, results, fields) {
+  conn.query("SELECT * FROM data WHERE champsId=? AND datetime=?", [id, date], function (error, results) {
     if (error) {
       console.log(error);
       res.send(500);
@@ -29,16 +30,18 @@ router.get('/', function(req, res) {
 router.post('/', (req, res) => {
   let fieldId=req.query['fieldId'];
   let data=req.query['data'];
-  let date=new Date(req.query['date']).setHours(0,0,0,0);
+  let date=new Date(req.query['date']).toISOString().split("T")[0];
 
-  conn.query('SELECT * FROM data WHERE champsId=?', [fieldId], function(error, results, fields) {
+  conn.query('SELECT * FROM data WHERE champsId=?', [fieldId], function(error, results) {
     if (error) {
       console.log(error);
       res.send(500);
     }
     else{
+      //TODO: Gérer ça mieux pour pas dupliquer les lignes de code
+
       if(results.length === 0){ //If champsId doesn't exist
-        conn.query('INSERT INTO data (champsId, data, datetime) VALUES (?,?,?)', [fieldId, data, date], function (error, results, fields) {
+        conn.query('INSERT INTO data (champsId, data, datetime) VALUES (?,?,?)', [fieldId, data, date], function (error) {
           if (error) {
             console.log(error);
             res.send(500);
@@ -48,21 +51,30 @@ router.post('/', (req, res) => {
         })
       }
       else{ //If champsId exist
-        //TODO: Add gestion des jours (if exist for $day)
-        let resultDate = new Date(results[0]['datetime']).setHours(0,0,0,0);
+        let resultDate = new Date(results[0]['datetime']);
 
         if(date === resultDate){
-          
+          conn.query('UPDATE data SET data=? WHERE champsId=?', [data, fieldId], function (error) {
+            if (error) {
+              console.log(error);
+              res.send(500);
+            }
+            else
+              res.send(200);
+          })
+
+          //TODO: quit when found
         }
-        
-        conn.query('UPDATE data SET data=? WHERE champsId=?', [data, fieldId], function (error, results, fields) {
-          if (error) {
-            console.log(error);
-            res.send(500);
-          }
-          else
-            res.send(200);
-        })
+        else{
+          conn.query('INSERT INTO data (champsId, data, datetime) VALUES (?,?,?)', [fieldId, data, date], function (error) {
+            if (error) {
+              console.log(error);
+              res.send(500);
+            }
+            else
+              res.send(200);
+          })
+        }
       }
     }
   });

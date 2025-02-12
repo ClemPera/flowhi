@@ -1,7 +1,7 @@
 export class dataApi {
-    static async get(id: number): Promise<any[]> {
+    static async get(id: number, date: Date): Promise<any[]> {
         let data:any[] = [];
-        await fetch("http://localhost:3000/data?fieldId=" + id, { "method": "GET" })
+        await fetch("http://localhost:3000/data?fieldId=" + id + "&date=" + date, { "method": "GET" })
         .then(response => {
                 if (!response.ok) throw new Error("Issue fetching data from api (network response !ok)")
                 return response.text();

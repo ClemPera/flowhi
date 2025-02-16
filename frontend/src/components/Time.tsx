@@ -1,11 +1,17 @@
-import React, { useState } from "react";
+import { useState } from "react";
 
-export default function Time(  ) {
-    let [val, setVal] = useState("");
+export default function Time() {
+    let [number, setNumber] = useState('');
 
-    let handleKeyPress = () => {
+    function modifNumber(inputText: string){
+        let newInputText = inputText.replace(/[^0-9+-]+/g, '').replace(/([+-]){2,}/g, '$1')
+        
+        setNumber(newInputText);
+    }
 
-    };
+    function submit(){
+
+    }
 
     return (
         <div className="grid grid-rows-3 bg-zinc-800 mx-1 md:mx-24 xl:mx-60 my-2 p-4 pb-4 rounded-xl">
@@ -18,7 +24,9 @@ export default function Time(  ) {
             </div>
             <div className="place-content-center">
                 <div className='flex place-content-center '>
-                    {/* <input type="number" pattern="[0-9+-]+/g" onKeyDown={handleKeyPress} value={(e) => setVal(e.target.value)} className="bg-black"></input> */}
+                    <form onSubmit={submit}>
+                        <input value={number} onChange={(e) => modifNumber(e.target.value)} className="bg-black"></input>
+                    </form>
                 </div>
             </div>
         </div>

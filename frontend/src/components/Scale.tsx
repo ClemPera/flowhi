@@ -4,7 +4,7 @@ import { dataApi } from './Api/dataApi';
 import { useGeneral } from './Store/general';
 
 export default function Scale( {n, elemId}: {n: number, elemId: number} ) {
-    const {date, setDate} = useGeneral()
+    const {date} = useGeneral()
     let [selected, setSelected] = useState(-1);
 
     let items: any = [];
@@ -34,9 +34,9 @@ export default function Scale( {n, elemId}: {n: number, elemId: number} ) {
     
     function Point({id}: {id: number}) {
         if(id==selected)
-            return <button onClick={() => updateStatus(id)} className="relative w-5 h-5 bg-transparent rounded-full border-4 border-white bg-white"></button>
+            return <button onClick={() => updateStatus(id)} className="relative w-5 h-5 rounded-full border-4 border-white bg-white"></button>
         else
-            return <button onClick={() => updateStatus(id)} className="relative w-5 h-5 bg-transparent rounded-full border-4 border-white hover:bg-white btn"></button>
+            return <button onClick={() => updateStatus(id)} className="relative w-5 h-5 rounded-full border-4 border-white bg-transparent hover:bg-white btn"></button>
     }
     
     function Line() {

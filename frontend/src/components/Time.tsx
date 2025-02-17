@@ -24,8 +24,9 @@ export default function Time() {
             </div>
             <div className="place-content-center">
                 <div className='flex place-content-center '>
-                    <form onSubmit={submit}>
+                    <form className="flex flex-row" onSubmit={submit}>
                         <input value={number} onChange={(e) => modifNumber(e.target.value)} className="bg-black"></input>
+                        {/* Ajouter un + et un input à chaque fois que celui d'avant est écrit + faire pour que l'input s'adapte au texte*/}
                     </form>
                 </div>
             </div>

@@ -1,5 +1,5 @@
 import { motion } from "motion/react";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 export default function Time() {
   let [active, setActive] = useState(0);
@@ -22,11 +22,11 @@ export default function Time() {
           >
             {/* Ajouter un + et un input à chaque fois que celui d'avant est écrit + faire pour que l'input s'adapte au texte*/}
 
-            <Input id={3} active={active} setActive={setActive} />
-            <Input id={2} active={active} setActive={setActive} />
-            <p className="text-center w-5">h</p>
-            <Input id={1} active={active} setActive={setActive} />
             <Input id={0} active={active} setActive={setActive} />
+            <Input id={1} active={active} setActive={setActive} />
+            <p className="text-center w-5">h</p>
+            <Input id={2} active={active} setActive={setActive} />
+            <Input id={3} active={active} setActive={setActive} />
             <p className="text-center w-5">m</p>
           </form>
         </div>
@@ -37,42 +37,60 @@ export default function Time() {
 
 function Input({ id, active, setActive }: { id: number, active: number, setActive: (a: number) => void}) {
     let [val, setVal] = useState(0);
+    const inputRef = useRef<HTMLInputElement>(null);
+    
+    //Focus next
+    useEffect(() => {
+      if(active == id){
+        inputRef.current!.focus()
+      }
+    }, [active])
 
     let handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-      const newChar = Number.parseInt(
-        (e.nativeEvent as InputEvent).data as string,
-      );
+      const data = (e.nativeEvent as InputEvent).data
+      const newChar = Number.parseInt(data as string);
 
-      if (!Number.isNaN(newChar)) {
-        setVal(() => newChar);
-        console.log("nc:" + newChar);
-
-        //TODO: Check for delete + if(!(id >= 3))
-        setActive(id + 1);
+      if(data != null){
+        if (!Number.isNaN(newChar)) {
+          setVal(() => newChar);
+  
+          if(id<3){
+            setActive(id + 1);
+          }
+        }
+      }
+      else{ //backspace key pressed
+        if(val == 0 && id > 0){
+          setActive(id - 1);
+        }
+        else{
+          setVal(0);
+        }
       }
 
-      //TODO: focus next
+
     };
 
     return (
         <motion.input
-        initial={{ color: "#ff6900" }}
-        animate={active === id ? {
-          color: ["#ff6900", "#ffffff"],
-          transition: {
-            delay: 0.6,
-            duration: 0.2,
-            repeat: Infinity,
-            repeatType: "reverse",
-            repeatDelay: 0.6,
-          }
-        } : {
-          color: "#ffffff",
-          transition: {
-            duration: 0
-          }
-        }}
+        // initial={{ color: "#ff6900" }}
+        // animate={active === id ? {
+        //   color: ["#ff6900", "#ffffff"],
+        //   transition: {
+        //     delay: 0.6,
+        //     duration: 0.2,
+        //     repeat: Infinity,
+        //     repeatType: "reverse",
+        //     repeatDelay: 0.6,
+        //   }
+        // } : {
+        //   color: "#ffffff",
+        //   transition: {
+        //     duration: 0
+        //   }
+        // }}
         value={val}
+        ref={inputRef}
         onChange={handleChange}
         className="text-center w-5 outline-none border-none focus:ring-0 focus:outline-none"
       />

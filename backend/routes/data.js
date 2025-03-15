@@ -14,9 +14,10 @@ conn.connect();
 
 router.get('/', function(req, res) {
   let id=req.query['fieldId'];
+  let key=req.query['key'];
   let date=new Date(req.query['date']).toISOString().split("T")[0];
 
-  conn.query("SELECT * FROM data WHERE champsId=? AND datetime=?", [id, date], function (error, results) {
+  conn.query("SELECT data.* FROM data JOIN fields ON data.champsId = fields.id JOIN users ON fields.userId = users.id WHERE data.champsId=? AND data.datetime=? AND users.key=?", [id, date, key], function (error, results) {
     if (error) {
       console.log(error);
       res.send(500);
@@ -27,63 +28,57 @@ router.get('/', function(req, res) {
 });
 
 //New data
+
+//TODO: ---------TO FIX---------
+//TODO: checker la clée avant d'insert ou d'update
 router.post('/', (req, res) => {
   let fieldId=req.query['fieldId'];
   let data=req.query['data'];
+  // let key=req.query['key'];
+  let key="toto";
   let date=new Date(req.query['date']).toISOString().split("T")[0];
 
-  conn.query('SELECT * FROM data WHERE champsId=?', [fieldId], function(error, results) {
+  //Key check
+  conn.query('SELECT fields.* JOIN users ON fields.userId = users.id WHERE users.key=?', [key], function(error, results) {
     if (error) {
       console.log(error);
       res.send(500);
     }
+    else if(result.length === 0){
+      console.log("Unauthorized");
+      res.send(401);
+    }
     else{
-      //TODO: Gérer ça mieux pour pas dupliquer les lignes de code
-
-      if(results.length === 0){ //If champsId doesn't exist
-        conn.query('INSERT INTO data (champsId, data, datetime) VALUES (?,?,?)', [fieldId, data, date], function (error) {
-          if (error) {
-            console.log(error);
-            res.send(500);
-          }
-          else
-            res.send(200);
-        })
-      }
-      else{ //If champsId exist
-        let resultDate = new Date(results[0]['datetime']);
-
-        if(date === resultDate){
-          conn.query('UPDATE data SET data=? WHERE champsId=?', [data, fieldId], function (error) {
-            if (error) {
-              console.log(error);
-              res.send(500);
-            }
-            else
-              res.send(200);
-          })
-
-          //TODO: quit when found
+      conn.query('SELECT data.* FROM data JOIN fields ON data.champsId = fields.id JOIN users ON fields.userId = users.id WHERE data.champsId=? AND data.datetime=? AND users.key=?', [fieldId,date,key], function(error, results) {
+        if (error) {
+          console.log(error);
+          res.send(500);
         }
         else{
-          conn.query('INSERT INTO data (champsId, data, datetime) VALUES (?,?,?)', [fieldId, data, date], function (error) {
-            if (error) {
-              console.log(error);
-              res.send(500);
-            }
-            else
+          if(results.length === 0){ //If champsId doesn't exist
+            conn.query('INSERT INTO data (champsId, data, datetime) VALUES (?,?,?)', [fieldId, data, date], function (error) {
+              if (error) {
+                console.log(error);
+                res.send(500);
+              }
+              else
               res.send(200);
-          })
+            })
+          }
+          else{ //If champsId exist
+            conn.query('UPDATE data SET data=? WHERE champsId=? AND datetime=?', [data,fieldId,date], function (error) {
+              if (error) {
+                console.log(error);
+                res.send(500);
+              }
+              else
+                res.send(200);
+            })
+          }
         }
-      }
+      });
     }
   });
 });
 
-//Update data
-router.put('/', (req, res) => {
-  let fieldId=req.query['fieldId'];
-  let data=req.query['data'];
-
-});
 module.exports = router;

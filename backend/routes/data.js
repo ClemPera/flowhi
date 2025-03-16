@@ -28,23 +28,19 @@ router.get('/', function(req, res) {
 });
 
 //New data
-
-//TODO: ---------TO FIX---------
-//TODO: checker la clée avant d'insert ou d'update
 router.post('/', (req, res) => {
   let fieldId=req.query['fieldId'];
   let data=req.query['data'];
-  // let key=req.query['key'];
-  let key="toto";
+  let key=req.query['key'];
   let date=new Date(req.query['date']).toISOString().split("T")[0];
 
   //Key check
-  conn.query('SELECT fields.* JOIN users ON fields.userId = users.id WHERE users.key=?', [key], function(error, results) {
+  conn.query('SELECT fields.* FROM fields JOIN users ON fields.userId = users.id WHERE users.key=?', [key], function(error, firstResult) {
     if (error) {
       console.log(error);
       res.send(500);
     }
-    else if(result.length === 0){
+    else if(firstResult.length === 0){
       console.log("Unauthorized");
       res.send(401);
     }

@@ -2,10 +2,6 @@ import { motion } from "motion/react";
 import { useEffect, useRef, useState } from "react";
 
 export default function Time() {
-  let [active, setActive] = useState(0);
-
-  function submit() {}
-
   return (
     <div className="grid grid-rows-3 bg-zinc-800 mx-1 md:mx-24 xl:mx-60 my-2 p-4 pb-4 rounded-xl">
       <div className="relative grid grid-cols-12">
@@ -15,24 +11,42 @@ export default function Time() {
         <div className="col-span-1 flex-auto w-4 absolute top-0.5 right-3"></div>
       </div>
       <div className="place-content-center">
-        <div className="flex place-content-center ">
-          <form
-            className="flex flex-row bg-black rounded-xl p-2"
-            onSubmit={submit}
-          >
-            {/* Ajouter un + et un input à chaque fois que celui d'avant est écrit + faire pour que l'input s'adapte au texte*/}
-
-            <Input id={0} active={active} setActive={setActive} />
-            <Input id={1} active={active} setActive={setActive} />
-            <p className="text-center w-5">h</p>
-            <Input id={2} active={active} setActive={setActive} />
-            <Input id={3} active={active} setActive={setActive} />
-            <p className="text-center w-5">m</p>
-          </form>
+        <div className="flex place-content-center">
+          {/* TODO:Ajouter un + et un input à chaque fois que celui d'avant est écrit + faire pour que l'input s'adapte au texte*/}
+          <Thing />
+           + 
+          <Thing />
+           + 
+          <Thing />
         </div>
       </div>
     </div>
   );
+}
+
+function Thing(){
+  let [active, setActive] = useState(0);
+
+  function submit() {
+    //TODO: Récupérer les values de chaques input et les convertir en datetime 
+    //      + save le résultat dans db
+    //Le faire à chaque écriture et pas on submit
+  }
+  
+  //TODO: Faire des check (pas dépasser 23h + pas dépasser 59 minutes)
+  return(
+    <form
+    className="flex flex-row bg-black rounded-xl p-2"
+    onSubmit={submit}>
+
+      <Input id={0} active={active} setActive={setActive} />
+      <Input id={1} active={active} setActive={setActive} />
+      <p className="text-center w-5">h</p>
+      <Input id={2} active={active} setActive={setActive} />
+      <Input id={3} active={active} setActive={setActive} />
+      <p className="text-center w-5">m</p>
+    </form>
+  )
 }
 
 function Input({ id, active, setActive }: { id: number, active: number, setActive: (a: number) => void}) {

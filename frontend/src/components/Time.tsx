@@ -26,31 +26,31 @@ export default function Time() {
 
 function Thing(){
   let [active, setActive] = useState(0);
+  let [h1, setH1] = useState(0)
+  let [h2, setH2] = useState(0)
+  let [m1, setM1] = useState(0)
+  let [m2, setM2] = useState(0)
 
-  function submit() {
-    //TODO: Récupérer les values de chaques input et les convertir en datetime 
-    //      + save le résultat dans db
-    //Le faire à chaque écriture et pas on submit
-  }
-  
+  useEffect(() => {
+    console.log("h:" + h1 + h2 + m1 + m2);
+    //TODO: Save les results dans db
+    
+  }, [h1,h2,m1,m2])
+
   //TODO: Faire des check (pas dépasser 23h + pas dépasser 59 minutes)
   return(
-    <form
-    className="flex flex-row bg-black rounded-xl p-2"
-    onSubmit={submit}>
-
-      <Input id={0} active={active} setActive={setActive} />
-      <Input id={1} active={active} setActive={setActive} />
+    <form className="flex flex-row bg-black rounded-xl p-2">
+      <Input id={0} active={active} setActive={setActive} val={h1} setVal={setH1} />
+      <Input id={1} active={active} setActive={setActive} val={h2} setVal={setH2} />
       <p className="text-center w-5">h</p>
-      <Input id={2} active={active} setActive={setActive} />
-      <Input id={3} active={active} setActive={setActive} />
+      <Input id={2} active={active} setActive={setActive} val={m1} setVal={setM1} />
+      <Input id={3} active={active} setActive={setActive} val={m2} setVal={setM2} />
       <p className="text-center w-5">m</p>
     </form>
   )
 }
 
-function Input({ id, active, setActive }: { id: number, active: number, setActive: (a: number) => void}) {
-    let [val, setVal] = useState(0);
+function Input({ id, active, setActive, val, setVal }: { id: number, active: number, setActive: (a: number) => void, val: number, setVal: (a: number) => void}) {
     const inputRef = useRef<HTMLInputElement>(null);
     
     //Focus next
@@ -66,7 +66,7 @@ function Input({ id, active, setActive }: { id: number, active: number, setActiv
 
       if(data != null){
         if (!Number.isNaN(newChar)) {
-          setVal(() => newChar);
+          setVal(newChar);
   
           if(id<3){
             setActive(id + 1);
@@ -80,8 +80,8 @@ function Input({ id, active, setActive }: { id: number, active: number, setActiv
         else{
           setVal(0);
         }
-      }
 
+      }
 
     };
 

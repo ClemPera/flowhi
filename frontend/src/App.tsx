@@ -33,7 +33,6 @@ function App() {
             <div className="">
                 <div className={popUp||deletePopUp ? 'pointer-events-none blur-sm' : ''} >
                     <Date/>
-                    <Time/>
                     <SpawnCompo/>
                     <Plus/>
                 </div>

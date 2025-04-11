@@ -2,12 +2,15 @@ import { create } from 'zustand';
 import { fieldsApi } from "../Api/fieldsApi";
 
 type Scale = {
-    id: number; 
-    name: String, 
     size: number;
 };
 
-export type Elem = Scale & { kind: String,  };
+type Time = { };
+
+export type Elem = (Scale|Time)
+& { kind: String; 
+    id: number; 
+    name: String; };
 
 type Store = {
     elems: Array<Elem>
@@ -29,6 +32,10 @@ export const useElems = create<Store>()(
                     switch (comp['kind']) {
                         case 'scale':
                             set((state) => ({ elems: [...state.elems, { size: comp['size'], id: comp['id'], kind: comp['kind'], name: comp['name'] }] }));
+                            break;                    
+                        case 'time':
+                            set((state) => ({ elems: [...state.elems, { id: comp['id'], kind: comp['kind'], name: comp['name'] }] }));
+                            break;
                     }
                 })
             })
@@ -40,6 +47,9 @@ export const useElems = create<Store>()(
                 switch (comp['kind']) {
                     case 'scale':
                         set((state) => ({ elems: [...state.elems, { size: comp['size'], id: comp['id'], kind: comp['kind'], name: comp['name'] }] }));
+                        break;
+                    case 'time':
+                        set((state) => ({ elems: [...state.elems, { id: comp['id'], kind: comp['kind'], name: comp['name'] }] }));
                         break;
                 }
             })

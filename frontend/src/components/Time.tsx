@@ -1,10 +1,13 @@
 import { motion } from "motion/react";
 import { useEffect, useRef, useState } from "react";
+import { dataApi } from "./Api/dataApi";
+import { useGeneral } from "./Store/general";
 
-export default function Time() {
+export default function Time({elemId}: {elemId: number}) {
   let [total, setTotal] = useState(new Date(0,0,0,0,0,0))
   let [count, setCount] = useState(1);
   let [values, setValues] = useState<Array<Date>>([]);
+  const {date} = useGeneral()
 
   useEffect(() => {
     let hours = 0;
@@ -21,20 +24,26 @@ export default function Time() {
     }
 
     setTotal(new Date(0,0,0,hours,minutes,0));
-
-    //TODO: Push to db
   }, [values])
 
+  useEffect(() => {
+    const decimalTime = total.getHours() + (total.getMinutes() / 60);
+
+    dataApi.post(elemId, decimalTime, date)
+  }, [total])
+
+  useEffect(() => {
+    dataApi.get(elemId, date).then((d: any) => {
+      const hours = Math.floor(d["data"]);
+      const minutes = Math.round((d["data"] - hours) * 60);
+      const reconstructedDate = new Date(0, 0, 0, hours, minutes, 0);
+      //TODO: Do something with reconstructedDate
+      console.log("after:" + reconstructedDate);
+    })
+}, [date])
+
   return (
-    <div className="grid grid-rows-3 bg-zinc-800 mx-1 md:mx-24 xl:mx-60 my-2 p-4 pb-4 rounded-xl">
-      <div className="relative grid grid-cols-12">
-        <div className="col-span-11">
-          <h2 className="font-bold text-xl">name</h2>
-        </div>
-        <div className="col-span-1 flex-auto w-4 absolute top-0.5 right-3"></div>
-      </div>
-      <div className="place-content-center">
-        <div className="flex place-content-center flex-wrap">
+    <>
           {(() => {
             const elements = [];
             for (let i = 0; i < count; i++) {
@@ -43,9 +52,7 @@ export default function Time() {
             return elements;
           })()}
           <p>total:{total.toTimeString()}</p>
-        </div>
-      </div>
-    </div>
+    </>
   );
 }
 
@@ -67,8 +74,6 @@ function Thing({id, values, setValues, count, setCount}: {id: number, values: Ar
     let newValues = [...values];
     newValues[id] = new Date(0,0,0,parseInt(h1.toString()+h2.toString()),parseInt(m1.toString()+m2.toString()),0)
     setValues(newValues);
-    console.log("write val w/:" + newValues);
-    
   }, [h1,h2,m1,m2])
   
   return(

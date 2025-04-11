@@ -10,7 +10,7 @@ export default function Scale( {n, elemId}: {n: number, elemId: number} ) {
     let items: any = [];
     let id = 0;
 
-    //**If this is causing too much charge on the server side**
+    //**If this is causing too much  charge on the server side**
     //You should remove everything and add everything back following the date
     //You also should get all the data at the same time as the fields 
     //  and bind it to the elem

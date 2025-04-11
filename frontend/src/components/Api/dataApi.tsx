@@ -20,6 +20,7 @@ export class dataApi {
     }
         
     static async post(fieldId: number, data: number, date: Date){
+        console.log(data);
         fetch("http://localhost:3000/data?fieldId=" + fieldId 
             + "&data=" + data + "&date=" + date + "&key=" + key,
             {"method":"POST"}

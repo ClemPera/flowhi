@@ -7,22 +7,22 @@ export default function Time() {
   let [values, setValues] = useState<Array<Date>>([]);
 
   useEffect(() => {
-    //TODO: Calculer le total and push to DB
+    let hours = 0;
+    let minutes = 0;
+    
+    values.forEach(value => {
+      hours += value.getHours();
+      minutes += value.getMinutes();
+    });
 
-    //This is bad bc it count the value times:
-    // values.forEach(value => {
-    //   let hours = total.getHours() + value.getHours();
-    //   let minutes = total.getMinutes() + value.getMinutes();
+    while (minutes >= 60){
+      hours += Math.floor(minutes / 60);
+      minutes = minutes % 60;
+    }
 
-    //   console.log(hours+"h " + minutes + "m");
+    setTotal(new Date(0,0,0,hours,minutes,0));
 
-    //   if (minutes >= 60) {
-    //     hours += Math.floor(minutes / 60);
-    //     minutes = minutes % 60;
-    //   }
-
-    //   setTotal(new Date(0,0,0,hours,minutes,0));
-    // });
+    //TODO: Push to db
   }, [values])
 
   return (
@@ -34,8 +34,7 @@ export default function Time() {
         <div className="col-span-1 flex-auto w-4 absolute top-0.5 right-3"></div>
       </div>
       <div className="place-content-center">
-        <div className="flex place-content-center">
-          {/* TODO:Ajouter un + et un input à chaque fois que celui d'avant est écrit + faire pour que l'input s'adapte au texte*/}
+        <div className="flex place-content-center flex-wrap">
           {(() => {
             const elements = [];
             for (let i = 0; i < count; i++) {

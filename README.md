@@ -1,6 +1,6 @@
 # <img src="/frontend/public/logo.svg" alt="logo" width="45" /> flowhi 
 
-flowhi (フロー日) is a -in developpement- task tracker website with weekly goals
+flowhi (フロー日)  is a progress tracker website currently in development that helps you achieve your goals through comprehensive progress monitoring. Track multiple elements such as scale measurements, time spent, weight changes, and more - all in one place. By visualizing your progress over time, flowhi empowers you to stay motivated on your journey toward accomplishing your personal goals.
 
 ## Tech 
 **Frontend**: Vite.js + React + Tailwind

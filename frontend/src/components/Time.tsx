@@ -11,6 +11,13 @@ export default function Time({elemId}: {elemId: number}) {
   const {date} = useGeneral()
 
   useEffect(() => {
+    setFirst(true);
+    setTotal(new Date(0,0,0,0,0,0));
+    setCount(1);
+    setValues([]);
+  }, [date])
+
+  useEffect(() => {
     if(!first){
       let hours = 0;
       let minutes = 0;
@@ -42,12 +49,11 @@ export default function Time({elemId}: {elemId: number}) {
       const hours = Math.floor(d["data"]);
       const minutes = Math.round((d["data"] - hours) * 60);
       const reconstructedDate = new Date(0, 0, 0, hours, minutes, 0);
-      console.log("rd:" + reconstructedDate);
 
       setTotal(new Date(0,0,0,hours,minutes,0));
       setValues([reconstructedDate]);
     })
-  }, [])
+  }, [date])
 
   return (
     <>
@@ -72,26 +78,56 @@ function Thing({id, values, setValues, count, setCount, first, setFirst}: {id: n
   let [counted, setCounted] = useState(false);
   
   useEffect(() => {
-    console.log("effect");
-    if(first && values[0] && (values[0].getHours() != 0 || values[0].getMinutes() != 0)){
-      console.log(values[0]);
+    if(first){
+      if(values[0] && (values[0].getHours() != 0 || values[0].getMinutes() != 0)){
+        let hours = values[0].getHours().toString().split("");
+        let minutes = values[0].getMinutes().toString().split("");
 
-      let hours = values[0].getHours().toString().split("");
-      let minutes = values[0].getMinutes().toString().split("");
-      
-      console.log(minutes);
+        let hours2 = hours.length>1 ? parseInt(hours[1]) : parseInt(hours[0]);
+        let hours1 = hours.length>1 ? parseInt(hours[0]) : 0;
+        let minutes1 = minutes.length>1 ? parseInt(minutes[1]) : parseInt(minutes[0]);
+        let minutes2 = minutes.length>1 ? parseInt(minutes[0]) : 0
 
-      setH2(hours.length>1 ? parseInt(hours[1]) : parseInt(hours[0]));
-      setH1(hours.length>1 ? parseInt(hours[0]) : 0);
-      
-      setM2(minutes.length>1 ? parseInt(minutes[1]) : parseInt(minutes[0]));
-      setM1(minutes.length>1 ? parseInt(minutes[0]) : 0);
+        //For some reason, 1 times on 10 it's NaN and breaks everything
+        if(Number.isNaN(hours2)){
+          setH2(0);
+        }else{
+          setH2(hours2);
+        }
 
-      setFirst(false);
+        if(Number.isNaN(hours1)){
+          setH1(0);
+        }else{
+          setH1(hours1);
+        }
+
+        if(Number.isNaN(minutes1)){
+          setM1(0);
+        }else{
+          setM1(minutes1);
+        }
+
+        if(Number.isNaN(minutes2)){
+          setM2(0);
+        }else{
+          setM2(minutes2);
+        }
+        
+        setCount(count+1);
+        setCounted(true);
+
+        setFirst(false);
+      }else{
+        setH1(0);
+        setH2(0);
+        setM1(0);
+        setM2(0);
+      }
+
     }
-  }, [values]);
+  }, [values, first]);
 
-  //TODO: Faire des check (pas dépasser 23h + pas dépasser 59 minutes)?
+  //TODO: Faire des check (pas dépasser 23h + pas dépasser 59 minutes)???
   useEffect(() => {
     if(!counted && (h1 != 0 || h2 != 0 || m1 != 0 || m2 != 0)){
       setCount(count+1);
@@ -117,7 +153,7 @@ function Thing({id, values, setValues, count, setCount, first, setFirst}: {id: n
 
 function Input({ id, active, setActive, val, setVal }: { id: number, active: number, setActive: (a: number) => void, val: number, setVal: (a: number) => void}) {
     const inputRef = useRef<HTMLInputElement>(null);
-    
+
     //Focus next
     useEffect(() => {
       if(active == id){

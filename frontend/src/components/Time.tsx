@@ -41,34 +41,55 @@ export default function Time({elemId}: {elemId: number}) {
     dataApi.get(elemId, date).then((d: any) => {
       const hours = Math.floor(d["data"]);
       const minutes = Math.round((d["data"] - hours) * 60);
-      // const reconstructedDate = new Date(0, 0, 0, hours, minutes, 0);
+      const reconstructedDate = new Date(0, 0, 0, hours, minutes, 0);
+      console.log("rd:" + reconstructedDate);
 
       setTotal(new Date(0,0,0,hours,minutes,0));
-      setFirst(false);
+      setValues([reconstructedDate]);
     })
   }, [])
 
   return (
     <>
-          {(() => {
-            const elements = [];
-            for (let i = 0; i < count; i++) {
-              elements.push(<Thing key={i} id={i} values={values} setValues={setValues} count={count} setCount={setCount}/>);
-            }
-            return elements;
-          })()}
-          <p>total:{total.toTimeString()}</p>
+      {(() => {
+        const elements = [];
+        for (let i = 0; i < count; i++) {
+          elements.push(<Thing key={i} id={i} values={values} setValues={setValues} count={count} setCount={setCount} first={first} setFirst={setFirst}/>);
+        }
+        return elements;
+      })()}
+      <p>total:{total.toTimeString()}</p>
     </>
   );
 }
 
-function Thing({id, values, setValues, count, setCount}: {id: number, values: Array<Date>, setValues: (v: Array<Date>) => void, count: number, setCount: (a: number) => void}){
+function Thing({id, values, setValues, count, setCount, first, setFirst}: {id: number, values: Array<Date>, setValues: (v: Array<Date>) => void, count: number, setCount: (a: number) => void, first: boolean, setFirst: (b: boolean) => void}){
   let [active, setActive] = useState(-1);
-  let [h1, setH1] = useState(0)
-  let [h2, setH2] = useState(0)
-  let [m1, setM1] = useState(0)
-  let [m2, setM2] = useState(0)
+  let [h1, setH1] = useState(0); //10h00
+  let [h2, setH2] = useState(0); //01h00
+  let [m1, setM1] = useState(0); //00h10
+  let [m2, setM2] = useState(0); //00h01
   let [counted, setCounted] = useState(false);
+  
+  useEffect(() => {
+    console.log("effect");
+    if(first && values[0] && (values[0].getHours() != 0 || values[0].getMinutes() != 0)){
+      console.log(values[0]);
+
+      let hours = values[0].getHours().toString().split("");
+      let minutes = values[0].getMinutes().toString().split("");
+      
+      console.log(minutes);
+
+      setH2(hours.length>1 ? parseInt(hours[1]) : parseInt(hours[0]));
+      setH1(hours.length>1 ? parseInt(hours[0]) : 0);
+      
+      setM2(minutes.length>1 ? parseInt(minutes[1]) : parseInt(minutes[0]));
+      setM1(minutes.length>1 ? parseInt(minutes[0]) : 0);
+
+      setFirst(false);
+    }
+  }, [values]);
 
   //TODO: Faire des check (pas dépasser 23h + pas dépasser 59 minutes)?
   useEffect(() => {

@@ -7,40 +7,46 @@ export default function Time({elemId}: {elemId: number}) {
   let [total, setTotal] = useState(new Date(0,0,0,0,0,0))
   let [count, setCount] = useState(1);
   let [values, setValues] = useState<Array<Date>>([]);
+  let [first, setFirst] = useState(true);
   const {date} = useGeneral()
 
   useEffect(() => {
-    let hours = 0;
-    let minutes = 0;
-    
-    values.forEach(value => {
-      hours += value.getHours();
-      minutes += value.getMinutes();
-    });
+    if(!first){
+      let hours = 0;
+      let minutes = 0;
+      
+      values.forEach(value => {
+        hours += value.getHours();
+        minutes += value.getMinutes();
+      });
 
-    while (minutes >= 60){
-      hours += Math.floor(minutes / 60);
-      minutes = minutes % 60;
+      while (minutes >= 60){
+        hours += Math.floor(minutes / 60);
+        minutes = minutes % 60;
+      }
+
+      setTotal(new Date(0,0,0,hours,minutes,0));
     }
-
-    setTotal(new Date(0,0,0,hours,minutes,0));
   }, [values])
 
   useEffect(() => {
-    const decimalTime = total.getHours() + (total.getMinutes() / 60);
-
-    dataApi.post(elemId, decimalTime, date)
+    if(!first){
+      const decimalTime = total.getHours() + (total.getMinutes() / 60);
+  
+      dataApi.post(elemId, decimalTime, date)
+    }
   }, [total])
 
   useEffect(() => {
     dataApi.get(elemId, date).then((d: any) => {
       const hours = Math.floor(d["data"]);
       const minutes = Math.round((d["data"] - hours) * 60);
-      const reconstructedDate = new Date(0, 0, 0, hours, minutes, 0);
-      //TODO: Do something with reconstructedDate
-      console.log("after:" + reconstructedDate);
+      // const reconstructedDate = new Date(0, 0, 0, hours, minutes, 0);
+
+      setTotal(new Date(0,0,0,hours,minutes,0));
+      setFirst(false);
     })
-}, [date])
+  }, [])
 
   return (
     <>

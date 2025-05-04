@@ -10,14 +10,19 @@ export default function CreatePopup() {
     const { addLast } = useElems();
     
     let size = useRef(0);
-    let [first, setFirst] = useState(true);
+    let [selected, setSelected] = useState<undefined|number>(undefined);
     let [err, setErr] = useState(false);
     
     let handleScaleClick = (e: React.MouseEvent) => {
-        setFirst(false);
+        setSelected(0);
         e.stopPropagation();
     }
-    
+
+    let handleTimeClick = (e: React.MouseEvent) => {
+        setSelected(1);
+        e.stopPropagation();
+    }
+
     let validClick = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
         let formData = new FormData(e.currentTarget as HTMLFormElement);
@@ -26,13 +31,32 @@ export default function CreatePopup() {
         if(!name)
             name = '';
 
-        if(await fieldsApi.post(name, 'scale', size.current) == 0){
-            addLast();
-            setPopup(false);
-        }
-        else{
-            setErr(true);
-            e.stopPropagation();
+        switch (selected) {
+            case 0:
+                if(await fieldsApi.post(name, 'scale', size.current) == 0){
+                    addLast();
+                    setPopup(false);
+                }
+                else{
+                    setErr(true);
+                    e.stopPropagation();
+                }
+                break;
+                
+                case 1:
+                    if(await fieldsApi.post(name, 'time', 0) == 0){
+                        addLast();
+                        setPopup(false);
+                    }
+                    else{
+                        setErr(true);
+                        e.stopPropagation();
+                    }
+                    break;
+                    
+            default:
+                console.error("the selected fields is not handled");
+                break;
         }
     }
 
@@ -51,7 +75,22 @@ export default function CreatePopup() {
             </>
         )
     }
-    
+
+    function Time(){
+        return(
+            <>
+                <form onSubmit={validClick}>
+                    <h3 className='text-xl text-center w-full'>Time</h3>
+                    <div className='grow bg-zinc-900 h-0.5 w-full my-2 mb-3'></div>
+                    <div className="flex flex-col h-full w-full gap-2 pb-1 overflow-y-auto">
+                            <input name="name" placeholder="Name" className={(err ? "bg-red-800" : "bg-zinc-900") + " rounded-xl p-3 focus:outline-hidden h-full w-full "} type="text"/>
+                            <button type="submit" className="p-2 mt-1 h-full w-full font-bold bg-zinc-950 rounded-xl place-content-center btn">Valider</button>
+                    </div>
+                </form>
+            </>
+        )
+    }
+
     function Size(){
         const nbrsText = ['Two','Three', 'Four', 'Five', 'Six', 'Seven','Eight'];
         const min = 2;
@@ -97,15 +136,27 @@ export default function CreatePopup() {
                 <div className='grow bg-zinc-900 h-0.5 w-full my-2 mb-3'></div>
                 <div className="flex flex-col h-full w-full gap-2 pb-1 overflow-y-auto">
                     <button onClick={handleScaleClick} className='flex-1 h-full w-full bg-zinc-900 rounded-xl place-content-center btn'>Scale</button>
-                    <button className='flex-1 h-full w-full bg-zinc-900 rounded-xl place-content-center btn'>choice 2</button>
+                    <button onClick={handleTimeClick} className='flex-1 h-full w-full bg-zinc-900 rounded-xl place-content-center btn'>Time</button>
                 </div>
             </>
         )
     }
 
+    
     return (
         <div id='popup' className='fixed place-content-center text-center px-8 pb-16 pt-4 rounded-xl border h-72 w-80 bg-zinc-800 left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 '>
-            {first ? <First/> : <Scale/>}
+            <RenderCompo/>
         </div>
     )
+
+    function RenderCompo(){
+        switch (selected) {
+            case 0:
+                return <Scale/>
+            case 1:
+                return <Time/>
+            default:
+                return <First/>
+        }
+    }
 }

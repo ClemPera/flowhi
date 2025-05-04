@@ -46,11 +46,16 @@ export default function Time({elemId}: {elemId: number}) {
 
   useEffect(() => {
     dataApi.get(elemId, date).then((d: any) => {
-      const hours = Math.floor(d["data"]);
-      const minutes = Math.round((d["data"] - hours) * 60);
-      const reconstructedDate = new Date(0, 0, 0, hours, minutes, 0);
+      let reconstructedDate;
+      if(d==-1){
+        reconstructedDate = new Date(0,0,0,0,0,0);
+      }else{
+        let hours = Math.floor(d["data"]);
+        let minutes = Math.round((d["data"] - hours) * 60);
+        reconstructedDate = new Date(0, 0, 0, hours, minutes, 0);
+      }
 
-      setTotal(new Date(0,0,0,hours,minutes,0));
+      setTotal(reconstructedDate);
       setValues([reconstructedDate]);
     })
   }, [date])
@@ -85,8 +90,8 @@ function Thing({id, values, setValues, count, setCount, first, setFirst}: {id: n
 
         let hours2 = hours.length>1 ? parseInt(hours[1]) : parseInt(hours[0]);
         let hours1 = hours.length>1 ? parseInt(hours[0]) : 0;
-        let minutes1 = minutes.length>1 ? parseInt(minutes[1]) : parseInt(minutes[0]);
-        let minutes2 = minutes.length>1 ? parseInt(minutes[0]) : 0
+        let minutes1 = minutes.length>1 ? parseInt(minutes[0]) : 0
+        let minutes2 = minutes.length>1 ? parseInt(minutes[1]) : parseInt(minutes[0]);
 
         //For some reason, 1 times on 10 it's NaN and breaks everything
         if(Number.isNaN(hours2)){

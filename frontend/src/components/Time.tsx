@@ -88,44 +88,45 @@ function Thing({id, values, setValues, count, setCount, first, setFirst}: {id: n
   
   useEffect(() => {
     if(first){
-      if(values[0] && (values[0].getHours() != 0 || values[0].getMinutes() != 0)){
-        let hours = values[0].getHours().toString().split("");
-        let minutes = values[0].getMinutes().toString().split("");
+      if(values[0]){
+        if((values[0].getHours() != 0 || values[0].getMinutes() != 0)){
+          let hours = values[0].getHours().toString().split("");
+          let minutes = values[0].getMinutes().toString().split("");
 
-        let hours2 = hours.length>1 ? parseInt(hours[1]) : parseInt(hours[0]);
-        let hours1 = hours.length>1 ? parseInt(hours[0]) : 0;
-        let minutes1 = minutes.length>1 ? parseInt(minutes[0]) : 0
-        let minutes2 = minutes.length>1 ? parseInt(minutes[1]) : parseInt(minutes[0]);
+          let hours2 = hours.length>1 ? parseInt(hours[1]) : parseInt(hours[0]);
+          let hours1 = hours.length>1 ? parseInt(hours[0]) : 0;
+          let minutes1 = minutes.length>1 ? parseInt(minutes[0]) : 0
+          let minutes2 = minutes.length>1 ? parseInt(minutes[1]) : parseInt(minutes[0]);
 
-        //For some reason, 1 times on 10 it's NaN and breaks everything
-        //696a3ed0a428dabf395adc2b6fb0852da6eaacce : TODO: Try, maybe this fix your bug and you don't need that part.
-        if(Number.isNaN(hours2)){
-          setH2(0);
-        }else{
-          setH2(hours2);
+          //For some reason, 1 times on 10 it's NaN and breaks everything
+          //696a3ed0a428dabf395adc2b6fb0852da6eaacce : TODO: Try, maybe this fix your bug and you don't need that part.
+          if(Number.isNaN(hours2)){
+            setH2(0);
+          }else{
+            setH2(hours2);
+          }
+
+          if(Number.isNaN(hours1)){
+            setH1(0);
+          }else{
+            setH1(hours1);
+          }
+
+          if(Number.isNaN(minutes1)){
+            setM1(0);
+          }else{
+            setM1(minutes1);
+          }
+
+          if(Number.isNaN(minutes2)){
+            setM2(0);
+          }else{
+            setM2(minutes2);
+          }
+          
+          setCount(count+1);
+          setCounted(true);
         }
-
-        if(Number.isNaN(hours1)){
-          setH1(0);
-        }else{
-          setH1(hours1);
-        }
-
-        if(Number.isNaN(minutes1)){
-          setM1(0);
-        }else{
-          setM1(minutes1);
-        }
-
-        if(Number.isNaN(minutes2)){
-          setM2(0);
-        }else{
-          setM2(minutes2);
-        }
-        
-        setCount(count+1);
-        setCounted(true);
-
         setFirst(false);
       }else{
         setH1(0);
@@ -133,7 +134,6 @@ function Thing({id, values, setValues, count, setCount, first, setFirst}: {id: n
         setM1(0);
         setM2(0);
       }
-
     }
   }, [values, first]);
 

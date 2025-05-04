@@ -2,6 +2,8 @@ import { motion } from "motion/react";
 import { useEffect, useRef, useState } from "react";
 import { dataApi } from "./Api/dataApi";
 import { useGeneral } from "./Store/general";
+import AddIcon from '@mui/icons-material/Add';
+import ArrowRight from '@mui/icons-material/ArrowForward';
 
 export default function Time({elemId}: {elemId: number}) {
   let [total, setTotal] = useState(new Date(0,0,0,0,0,0))
@@ -66,10 +68,12 @@ export default function Time({elemId}: {elemId: number}) {
         const elements = [];
         for (let i = 0; i < count; i++) {
           elements.push(<Thing key={i} id={i} values={values} setValues={setValues} count={count} setCount={setCount} first={first} setFirst={setFirst}/>);
+          if(i != count-1)
+            elements.push(<AddIcon key={1000+i}></AddIcon>);
         }
         return elements;
       })()}
-      <p>total:{total.toTimeString()}</p>
+      <ArrowRight/><p className="text-2xl">{total.getHours()+"h"+total.getMinutes()+"m"}</p>
     </>
   );
 }
@@ -94,6 +98,7 @@ function Thing({id, values, setValues, count, setCount, first, setFirst}: {id: n
         let minutes2 = minutes.length>1 ? parseInt(minutes[1]) : parseInt(minutes[0]);
 
         //For some reason, 1 times on 10 it's NaN and breaks everything
+        //696a3ed0a428dabf395adc2b6fb0852da6eaacce : TODO: Try, maybe this fix your bug and you don't need that part.
         if(Number.isNaN(hours2)){
           setH2(0);
         }else{
@@ -132,7 +137,7 @@ function Thing({id, values, setValues, count, setCount, first, setFirst}: {id: n
     }
   }, [values, first]);
 
-  //TODO: Faire des check (pas dépasser 23h + pas dépasser 59 minutes)???
+  //TODO: Faire des check (pas dépasser 23h + pas dépasser 59 minutes)
   useEffect(() => {
     if(!counted && (h1 != 0 || h2 != 0 || m1 != 0 || m2 != 0)){
       setCount(count+1);

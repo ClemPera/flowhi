@@ -7,8 +7,8 @@ export default function CompoHolder( {elem}: {elem: Elem} ) {
     switch (elem.kind) {
         case 'scale':
             return (
-                <div className="grid grid-rows-3 bg-zinc-800 mx-1 md:mx-24 xl:mx-60 my-2 p-4 pb-4 rounded-xl">
-                    <div className="relative grid grid-cols-12">
+                <div className="flex flex-col bg-zinc-800 mx-1 md:mx-24 xl:mx-60 my-2 p-4 pb-10 rounded-xl">
+                    <div className="relative grid grid-cols-12 pb-2">
                         <div className="col-span-11">
                             <h2 className="font-bold text-xl">{elem.name}</h2>
                         </div>
@@ -23,8 +23,8 @@ export default function CompoHolder( {elem}: {elem: Elem} ) {
             )
         case 'time':
             return (                
-                <div className="grid grid-rows-3 bg-zinc-800 mx-1 md:mx-24 xl:mx-60 my-2 p-4 pb-4 rounded-xl">
-                    <div className="relative grid grid-cols-12">
+                <div className="flex flex-col bg-zinc-800 mx-1 md:mx-24 xl:mx-60 my-2 p-4 pb-10 rounded-xl">
+                    <div className="relative grid grid-cols-12 pb-4">
                         <div className="col-span-11">
                             <h2 className="font-bold text-xl">{elem.name}</h2>
                         </div>
@@ -33,7 +33,7 @@ export default function CompoHolder( {elem}: {elem: Elem} ) {
                         </div>
                     </div>
                     <div className="place-content-center">
-                        <div className="flex place-content-center flex-wrap">
+                        <div className="flex place-content-center place-items-center flex-wrap gap-3">
                             <Time key={elem.id} elemId={elem.id}/>
                         </div>
                     </div>

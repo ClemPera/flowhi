@@ -3,16 +3,17 @@ import { useElems } from './Store/elems';
 import ArrowUp from '@mui/icons-material/ExpandLess';
 import ArrowBot from '@mui/icons-material/ExpandMore';
 import { fieldsApi } from './Api/fieldsApi';
+import { goalsApi } from './Api/goalsApi';
 import { useGeneral } from './Store/general';
 
 export default function CreatePopup() {
     const { setCreatePopup: setPopup } = useGeneral();
     const { addLast } = useElems();
-    
+
     let size = useRef(0);
     let [selected, setSelected] = useState<undefined|number>(undefined);
     let [err, setErr] = useState(false);
-    
+
     let handleScaleClick = (e: React.MouseEvent) => {
         setSelected(0);
         e.stopPropagation();
@@ -24,41 +25,49 @@ export default function CreatePopup() {
     }
 
     let validClick = async (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault()
-        let formData = new FormData(e.currentTarget as HTMLFormElement);
-        let name = formData.get("name")?.toString();
+          e.preventDefault()
+          let formData = new FormData(e.currentTarget as HTMLFormElement);
+          let name = formData.get("name")?.toString();
 
-        if(!name)
-            name = '';
+          if(!name)
+              name = '';
 
-        switch (selected) {
-            case 0:
-                if(await fieldsApi.post(name, 'scale', size.current) == 0){
-                    addLast();
-                    setPopup(false);
-                }
-                else{
-                    setErr(true);
-                    e.stopPropagation();
-                }
-                break;
-                
-                case 1:
-                    if(await fieldsApi.post(name, 'time', 0) == 0){
-                        addLast();
-                        setPopup(false);
-                    }
-                    else{
-                        setErr(true);
-                        e.stopPropagation();
-                    }
-                    break;
-                    
-            default:
-                console.error("the selected fields is not handled");
-                break;
-        }
-    }
+          switch (selected) {
+              case 0:
+                  if(await fieldsApi.post(name, 'scale', size.current) == 0){
+                      addLast();
+                      setPopup(false);
+                  }
+                  else{
+                      setErr(true);
+                      e.stopPropagation();
+                  }
+                  break;
+
+              case 1:
+                  const weeklyGoal = Number(formData.get("weeklyGoal")) || 0;
+                  if(await fieldsApi.post(name, 'time', 0) == 0){
+                      addLast();
+                      // Set initial goal if one was specified
+                      if (weeklyGoal > 0) {
+                          const lastField = await fieldsApi.getLast();
+                          if (lastField && lastField[0]) {
+                              goalsApi.post(lastField[0].id, weeklyGoal, new Date());
+                          }
+                      }
+                      setPopup(false);
+                  }
+                  else{
+                      setErr(true);
+                      e.stopPropagation();
+                  }
+                  break;
+
+              default:
+                  console.error("the selected fields is not handled");
+                  break;
+          }
+      }
 
     function Scale(){
         return(
@@ -83,8 +92,24 @@ export default function CreatePopup() {
                     <h3 className='text-xl text-center w-full'>Time</h3>
                     <div className='grow bg-zinc-900 h-0.5 w-full my-2 mb-3'></div>
                     <div className="flex flex-col h-full w-full gap-2 pb-1 overflow-y-auto">
-                            <input name="name" placeholder="Name" className={(err ? "bg-red-800" : "bg-zinc-900") + " rounded-xl p-3 focus:outline-hidden h-full w-full "} type="text"/>
-                            <button type="submit" className="p-2 mt-1 h-full w-full font-bold bg-zinc-950 rounded-xl place-content-center btn">Valider</button>
+                        <input
+                            name="name"
+                            placeholder="Name"
+                            className={(err ? "bg-red-800" : "bg-zinc-900") + " rounded-xl p-3 focus:outline-hidden h-full w-full"}
+                            type="text"
+                        />
+                        <div className="flex flex-col">
+                            <label className="text-sm text-slate-300 mb-1">Weekly Goal (hours)</label>
+                            <input
+                                name="weeklyGoal"
+                                type="number"
+                                min="0"
+                                step="0.5"
+                                defaultValue="0"
+                                className="bg-zinc-900 rounded-xl p-3 focus:outline-hidden h-full w-full"
+                            />
+                        </div>
+                        <button type="submit" className="p-2 mt-1 h-full w-full font-bold bg-zinc-950 rounded-xl place-content-center btn">Valider</button>
                     </div>
                 </form>
             </>
@@ -97,7 +122,7 @@ export default function CreatePopup() {
         const max = nbrsText.length;
 
         let [nbr, setNbr] = useState(min);
-        
+
         let handleArrowUpClick = (e: React.MouseEvent) => {
             if(nbr <= max)
                 setNbr(() => nbr++)
@@ -105,7 +130,7 @@ export default function CreatePopup() {
             size.current = nbr
             e.stopPropagation();
         }
-    
+
         let handleArrowDownClick = (e: React.MouseEvent) => {
             if(nbr > min)
                 setNbr(() => nbr--)
@@ -142,7 +167,7 @@ export default function CreatePopup() {
         )
     }
 
-    
+
     return (
         <div id='popup' className='fixed place-content-center text-center px-8 pb-16 pt-4 rounded-xl border h-72 w-80 bg-zinc-800 left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 '>
             <RenderCompo/>

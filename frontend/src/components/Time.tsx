@@ -1,16 +1,36 @@
 import { motion } from "motion/react";
 import { useEffect, useRef, useState } from "react";
 import { dataApi } from "./Api/dataApi";
+import { goalsApi } from "./Api/goalsApi";
 import { useGeneral } from "./Store/general";
 import AddIcon from '@mui/icons-material/Add';
 import ArrowRight from '@mui/icons-material/ArrowForward';
+
+//TODO: Delete the thing when it goes it's == 0
+
+//TODO goals:
+//  - Fix issue where it double the time in the goal
+//  - handle end of the week
+//  - handle past weeks
+//
 
 export default function Time({elemId}: {elemId: number}) {
   let [total, setTotal] = useState(new Date(0,0,0,0,0,0))
   let [count, setCount] = useState(1);
   let [values, setValues] = useState<Array<Date>>([]);
   let [first, setFirst] = useState(true);
+  let [weeklyGoal, setWeeklyGoal] = useState(0);
+  let [weeklyTotal, setWeeklyTotal] = useState(0);
   const {date} = useGeneral()
+
+  // Get weekly goal
+  useEffect(() => {
+    goalsApi.get(elemId, date).then((goal) => {
+      if (goal && goal.goal) {
+        setWeeklyGoal(goal.goal);
+      }
+    });
+  }, [date]);
 
   useEffect(() => {
     setFirst(true);
@@ -23,7 +43,7 @@ export default function Time({elemId}: {elemId: number}) {
     if(!first){
       let hours = 0;
       let minutes = 0;
-      
+
       values.forEach(value => {
         hours += value.getHours();
         minutes += value.getMinutes();
@@ -39,12 +59,23 @@ export default function Time({elemId}: {elemId: number}) {
   }, [values])
 
   useEffect(() => {
-    if(!first){
-      const decimalTime = total.getHours() + (total.getMinutes() / 60);
-  
-      dataApi.post(elemId, decimalTime, date)
-    }
-  }, [total])
+      if(!first){
+        const decimalTime = total.getHours() + (total.getMinutes() / 60);
+
+        // Update daily time
+        dataApi.post(elemId, decimalTime, date);
+
+        // Calculate weekly total and update goal
+        if (weeklyGoal > 0) {
+          const startOfWeek = new Date(date);
+          startOfWeek.setDate(date.getDate() - date.getDay());
+          if (date >= startOfWeek) {
+            setWeeklyTotal(prev => prev + decimalTime);
+            goalsApi.post(elemId, weeklyGoal, date);
+          }
+        }
+      }
+    }, [total]);
 
   useEffect(() => {
     dataApi.get(elemId, date).then((d: any) => {
@@ -62,6 +93,8 @@ export default function Time({elemId}: {elemId: number}) {
     })
   }, [date])
 
+  const progress = weeklyTotal / weeklyGoal * 100;
+
   return (
     <>
       {(() => {
@@ -74,6 +107,20 @@ export default function Time({elemId}: {elemId: number}) {
         return elements;
       })()}
       <ArrowRight/><p className="text-2xl">{total.getHours()+"h"+total.getMinutes()+"m"}</p>
+      {weeklyGoal > 0 && (
+        <div className="ml-4">
+          <div className="w-48 h-2 bg-gray-200 rounded">
+            <div
+              className="h-full rounded"
+              style={{
+                width: `${Math.min(progress, 100)}%`,
+                backgroundColor: progress >= 100 ? '#4CAF50' : '#2196F3'
+              }}
+            />
+          </div>
+          <p className="text-sm mt-1">{Math.round(weeklyTotal)}h / {weeklyGoal}h</p>
+        </div>
+      )}
     </>
   );
 }
@@ -85,7 +132,7 @@ function Thing({id, values, setValues, count, setCount, first, setFirst}: {id: n
   let [m1, setM1] = useState(0); //00h10
   let [m2, setM2] = useState(0); //00h01
   let [counted, setCounted] = useState(false);
-  
+
   useEffect(() => {
     if(first){
       if(values[0]){
@@ -123,7 +170,7 @@ function Thing({id, values, setValues, count, setCount, first, setFirst}: {id: n
           }else{
             setM2(minutes2);
           }
-          
+
           setCount(count+1);
           setCounted(true);
         }
@@ -137,7 +184,7 @@ function Thing({id, values, setValues, count, setCount, first, setFirst}: {id: n
     }
   }, [values, first]);
 
-  //TODO: Faire des check (pas dépasser 23h + pas dépasser 59 minutes)
+  //TODO: Faire des check (pas dépasser 23h + pas dépasser 59 minutes) ou gérer les problèmes
   useEffect(() => {
     if(!counted && (h1 != 0 || h2 != 0 || m1 != 0 || m2 != 0)){
       setCount(count+1);
@@ -148,7 +195,7 @@ function Thing({id, values, setValues, count, setCount, first, setFirst}: {id: n
     newValues[id] = new Date(0,0,0,parseInt(h1.toString()+h2.toString()),parseInt(m1.toString()+m2.toString()),0)
     setValues(newValues);
   }, [h1,h2,m1,m2])
-  
+
   return(
     <form className="flex flex-row bg-black rounded-xl p-2">
       <Input id={0} active={active} setActive={setActive} val={h1} setVal={setH1} />
@@ -178,7 +225,7 @@ function Input({ id, active, setActive, val, setVal }: { id: number, active: num
       if(data != null){
         if (!Number.isNaN(newChar)) {
           setVal(newChar);
-  
+
           if(id<3){
             setActive(id + 1);
           }
@@ -191,9 +238,7 @@ function Input({ id, active, setActive, val, setVal }: { id: number, active: num
         else{
           setVal(0);
         }
-
       }
-
     };
 
     return (

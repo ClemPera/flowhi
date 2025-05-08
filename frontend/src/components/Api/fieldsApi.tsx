@@ -25,22 +25,23 @@ export class fieldsApi {
                 data = d
             })
             .catch(error => console.error("Fetch error:", error)); // Handle errors
-        
+
         return data
     }
 
-    static async post(name: string, kind: string, size: number){
+    static async post(name: string, kind: string, size: number, weeklyGoal?: number){
         if(name.length > 25) return 1;
 
         fetch("http://localhost:3000/fields?name=" + name
-                + "&kind=" + kind 
+                + "&kind=" + kind
                 + "&size=" + size
-                + "&key=" + key, 
+                + "&weeklyGoal=" + (weeklyGoal || 0)
+                + "&key=" + key,
             {"method":"POST"}
         )
         return 0;
     }
-    
+
     static async delete(id: number){
         fetch("http://localhost:3000/fields?id=" + id + "&key=" + key,
             {"method":"DELETE"}

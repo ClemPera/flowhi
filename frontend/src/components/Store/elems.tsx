@@ -5,16 +5,18 @@ type Scale = {
     size: number;
 };
 
-type Time = { };
+type Time = {
+    weeklyGoal: number;
+};
 
 export type Elem = (Scale|Time)
-& { kind: String; 
-    id: number; 
+& { kind: String;
+    id: number;
     name: String; };
 
 type Store = {
     elems: Array<Elem>
-    
+
     addAll: () => void
     addLast: () => void
     add: (elem: Elem) => void
@@ -32,7 +34,7 @@ export const useElems = create<Store>()(
                     switch (comp['kind']) {
                         case 'scale':
                             set((state) => ({ elems: [...state.elems, { size: comp['size'], id: comp['id'], kind: comp['kind'], name: comp['name'] }] }));
-                            break;                    
+                            break;
                         case 'time':
                             set((state) => ({ elems: [...state.elems, { id: comp['id'], kind: comp['kind'], name: comp['name'] }] }));
                             break;
@@ -49,7 +51,7 @@ export const useElems = create<Store>()(
                         set((state) => ({ elems: [...state.elems, { size: comp['size'], id: comp['id'], kind: comp['kind'], name: comp['name'] }] }));
                         break;
                     case 'time':
-                        set((state) => ({ elems: [...state.elems, { id: comp['id'], kind: comp['kind'], name: comp['name'] }] }));
+                        set((state) => ({ elems: [...state.elems, { id: comp['id'], kind: comp['kind'], name: comp['name'], weeklyGoal: comp['weeklyGoal'] || 0 }] }));
                         break;
                 }
             })

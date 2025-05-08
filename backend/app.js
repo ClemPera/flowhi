@@ -7,6 +7,7 @@ var logger = require('morgan');
 var indexRouter = require('./routes/index');
 var dataRouter = require('./routes/data');
 var fieldsRouter = require('./routes/fields');
+var goalsRouter = require('./routes/goals');
 
 var app = express();
 const cors = require('cors')
@@ -30,6 +31,7 @@ app.use(cors(corsOptions))
 app.use('/', indexRouter);
 app.use('/data', dataRouter);
 app.use('/fields', fieldsRouter);
+app.use('/goals', goalsRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

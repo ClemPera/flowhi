@@ -9,10 +9,7 @@ import ArrowRight from '@mui/icons-material/ArrowForward';
 //TODO: Delete the thing when it goes it's == 0
 
 //TODO goals:
-//  - Fix issue where it double the time in the goal
-//  - handle end of the week
-//  - handle past weeks
-//
+//- kinda works but it doesn't at the same time
 
 export default function Time({elemId}: {elemId: number}) {
   let [total, setTotal] = useState(new Date(0,0,0,0,0,0))
@@ -25,12 +22,62 @@ export default function Time({elemId}: {elemId: number}) {
 
   // Get weekly goal
   useEffect(() => {
-    goalsApi.get(elemId, date).then((goal) => {
+    // Calculate week start (Sunday) for the selected date
+    const weekStart = new Date(date);
+    // JavaScript getDay() returns 0 for Sunday, so we're calculating days since last Sunday
+    const daysFromSunday = date.getDay();
+    console.log("Current day:", date.toDateString(), "Day of week:", daysFromSunday);
+
+    // Go back to the most recent Sunday (or stay on Sunday if today is Sunday)
+    weekStart.setDate(date.getDate() - daysFromSunday);
+    weekStart.setHours(0, 0, 0, 0);
+    console.log("Calculated week start:", weekStart.toDateString(), "ISO:", weekStart.toISOString());
+
+    // Get the goal for this week
+    goalsApi.get(elemId, weekStart).then((goal) => {
+      console.log("goal:" + goal);
+      console.log("elem:" + elemId);
+      console.log("weekStart sent to API:" + weekStart.toISOString());
       if (goal && goal.goal) {
         setWeeklyGoal(goal.goal);
+
+        // Calculate the week's total time
+        let weekTotal = 0;
+        const promises = [];
+
+        // Get data for each day of the week
+        for (let i = 0; i < 7; i++) {
+          const dayDate = new Date(weekStart);
+          dayDate.setDate(weekStart.getDate() + i);
+
+          // Only include days up to the selected date
+          if (dayDate <= date) {
+            promises.push(
+              dataApi.get(elemId, dayDate).then((d: any) => {
+                console.log("Day data for", dayDate.toDateString(), ":", d);
+                if (d && d !== -1) {
+                  if (d.data !== undefined) {
+                    const dayValue = parseFloat(d.data);
+                    weekTotal += dayValue;
+                    console.log("Adding", dayValue, "to weekly total, now:", weekTotal);
+                  }
+                }
+              })
+            );
+          }
+        }
+
+        // Wait for all data to be fetched
+        Promise.all(promises).then(() => {
+          console.log("Final weekly total for elemId:", elemId, "=", weekTotal);
+          setWeeklyTotal(weekTotal);
+        });
+      } else {
+        setWeeklyGoal(0);
+        setWeeklyTotal(0);
       }
     });
-  }, [date]);
+  }, [date, elemId]);
 
   useEffect(() => {
     setFirst(true);
@@ -56,7 +103,7 @@ export default function Time({elemId}: {elemId: number}) {
 
       setTotal(new Date(0,0,0,hours,minutes,0));
     }
-  }, [values])
+  }, [values, first])
 
   useEffect(() => {
       if(!first){
@@ -65,35 +112,43 @@ export default function Time({elemId}: {elemId: number}) {
         // Update daily time
         dataApi.post(elemId, decimalTime, date);
 
-        // Calculate weekly total and update goal
+        // Only update the goal for the current week if needed
         if (weeklyGoal > 0) {
-          const startOfWeek = new Date(date);
-          startOfWeek.setDate(date.getDate() - date.getDay());
-          if (date >= startOfWeek) {
-            setWeeklyTotal(prev => prev + decimalTime);
-            goalsApi.post(elemId, weeklyGoal, date);
-          }
+          // Calculate week start (Sunday) for the selected date
+          const weekStart = new Date(date);
+          const daysFromSunday = date.getDay();
+          weekStart.setDate(date.getDate() - daysFromSunday);
+          weekStart.setHours(0, 0, 0, 0);
+
+          console.log("Posting goal with week start:", weekStart.toDateString());
+
+          // Only post the goal itself, don't modify weeklyTotal here
+          goalsApi.post(elemId, weeklyGoal, weekStart);
         }
       }
-    }, [total]);
+    }, [total, first, elemId, date, weeklyGoal]);
 
   useEffect(() => {
     dataApi.get(elemId, date).then((d: any) => {
+      console.log("Data received for time:", d);
       let reconstructedDate;
-      if(d==-1){
+      if(d==-1 || !d || !d.data){
         reconstructedDate = new Date(0,0,0,0,0,0);
       }else{
-        let hours = Math.floor(d["data"]);
-        let minutes = Math.round((d["data"] - hours) * 60);
+        // Parse the data properly
+        const value = parseFloat(d.data);
+        let hours = Math.floor(value);
+        let minutes = Math.round((value - hours) * 60);
         reconstructedDate = new Date(0, 0, 0, hours, minutes, 0);
+        console.log("Reconstructed time:", hours, "hours,", minutes, "minutes");
       }
 
       setTotal(reconstructedDate);
       setValues([reconstructedDate]);
     })
-  }, [date])
+  }, [date, elemId])
 
-  const progress = weeklyTotal / weeklyGoal * 100;
+  const progress = weeklyGoal > 0 ? (weeklyTotal / weeklyGoal * 100) : 0;
 
   return (
     <>
@@ -118,7 +173,18 @@ export default function Time({elemId}: {elemId: number}) {
               }}
             />
           </div>
-          <p className="text-sm mt-1">{Math.round(weeklyTotal)}h / {weeklyGoal}h</p>
+          <p>{weeklyTotal}</p>
+          <p>{weeklyGoal}</p>
+          <p className="text-sm mt-1">
+            {Math.round(weeklyTotal)}h / {weeklyGoal}h
+            <span className="text-xs ml-2">
+              (Week {(() => {
+                const weekStart = new Date(date);
+                weekStart.setDate(date.getDate() - date.getDay());
+                return `${weekStart.getMonth()+1}/${weekStart.getDate()}`;
+              })()})
+            </span>
+          </p>
         </div>
       )}
     </>

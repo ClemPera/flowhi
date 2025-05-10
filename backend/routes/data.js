@@ -58,11 +58,11 @@ router.post('/', (req, res) => {
                 res.send(500);
               }
               else
-              res.send(200);
+                res.send(200);
             })
           }
           else{ //If champsId exist
-            conn.query('UPDATE data SET data=? WHERE champsId=? AND datetime=?', [data,fieldId,date], function (error) {
+            conn.query('UPDATE data SET data=? WHERE champsId=? AND datetime=?', [data, fieldId, date], function (error) {
               if (error) {
                 console.log(error);
                 res.send(500);

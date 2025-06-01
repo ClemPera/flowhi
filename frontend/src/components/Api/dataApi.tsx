@@ -3,7 +3,16 @@ let key = "da39a3ee5e6b4b0d3255bfef95601890afd80709" //TODO: change when login i
 export class dataApi {
     static async get(id: number, date: Date): Promise<any[]> {
         let data:any[] = [];
-        await fetch("http://localhost:3000/data?fieldId=" + id + "&date=" + date + "&key=" + key, { "method": "GET" })
+        await fetch("http://localhost:3000/data", 
+            { 
+                "method": "GET",
+                headers:{"Content-Type": "application/json"},
+                body: JSON.stringify({
+                    fieldId: id,
+                    date: date,
+                    key: key,
+                })
+            })
         .then(response => {
                 if (!response.ok) throw new Error("Issue fetching data from api (network response !ok)")
                 return response.text();

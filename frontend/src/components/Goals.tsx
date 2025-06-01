@@ -1,9 +1,9 @@
 export default function Goals(id){
-
-    //TODO:Fetch goal from id and set goals to true or false
+    //TODO:Fetch goal from id and set goals to true or false + get necessary stuff
+    //TODO:Handle click to modify goals (+pointer effect) + popup
     let goals = true;
     
-    let color = "bg-lime-600"
+    let color = "bg-zinc-900"
 
     return (
         <>

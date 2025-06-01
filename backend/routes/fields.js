@@ -39,14 +39,21 @@ router.get('/', function(req, res) {
 });
 
 //New data
+//TODO: Rework this part: 
+//        - Non updatable
+//        - can't modify just one value
 router.post('/', (req, res) => {
   let name=req.query['name'];
   let kind=req.query['kind'];
   let size=req.query['size'];
+  let weekly_goal=req.query['weekly_goal'];
   let key=req.query['key']; 
 
   res.setHeader("Content-Type", "application/json");
-  conn.query('INSERT INTO fields (name, kind, size, userId) VALUES (?,?, ?, (SELECT id FROM users WHERE users.key = ?))', [name, kind, size, key], function (error, results, fields) {
+  //TODO:Select request to check if it exists
+  // conn.query('SELECT fields.* FROM fields JOIN users ON fields.userId = users.id WHERE users.key=?', [key], function(error, firstResult) {
+
+  conn.query('INSERT INTO fields (name, kind, size, userId) VALUES (?,?,?, (SELECT id FROM users WHERE users.key = ?))', [name, kind, size, key], function (error, results, fields) {
     if (error) {
       console.log(error);
       res.send(500);

@@ -17,7 +17,10 @@ router.get('/', function(req, res) {
   let key=req.query['key']; 
 
   if(lastOne){
-    conn.query("SELECT fields.* FROM fields JOIN users ON fields.userId = users.id WHERE users.key = ? ORDER BY fields.id DESC LIMIT 1", [key] , function (error, results, fields) {
+    conn.query(`SELECT fields.* FROM fields 
+      JOIN users ON fields.userId = users.id 
+      WHERE users.key = ? ORDER BY fields.id DESC LIMIT 1`, 
+      [key], function (error, results, fields) {
       if (error) {
         console.log(error);
         res.send(500);
@@ -27,7 +30,10 @@ router.get('/', function(req, res) {
     });
   }
   else{
-    conn.query("SELECT fields.* FROM fields JOIN users ON fields.userId = users.id WHERE users.key = ?", [key] , function (error, results, fields) {
+    conn.query(`SELECT fields.* FROM fields 
+        JOIN users ON fields.userId = users.id 
+        WHERE users.key = ?`, [key] , 
+      function (error, results, fields) {
       if (error) {
         console.log(error);
         res.send(500);
@@ -42,13 +48,14 @@ router.post('/', (req, res) => {
   let name=req.query['name'];
   let kind=req.query['kind'];
   let size=req.query['size'];
-  let weekly_goal=req.query['weekly_goal'];
+  let goal_weekly=req.query['goal_weekly'];
   let key=req.query['key']; 
 
   res.setHeader("Content-Type", "application/json");
-  conn.query(`INSERT INTO fields (name, kind, size, userId) 
-      VALUES (?,?,?, (SELECT id FROM users WHERE users.key = ?))`
-      , [name, kind, size, key], function (error, results, fields) {
+  conn.query(`INSERT INTO fields (name, kind, size, goal_weekly, userId) 
+      VALUES (?,?,?,?, (SELECT id FROM users 
+      WHERE users.key = ?))`
+      , [name, kind, size, goal_weekly, key], function (error, results, fields) {
     if (error) {
       console.log(error);
       res.send(500);
@@ -63,6 +70,7 @@ router.put('/', (req, res) => {
   let name = req.query['name'];
   let kind = req.query['kind'];
   let size = req.query['size'];
+  let goal_weekly = req.query['goal_weekly'];
   let key = req.query['key'];
   
   res.setHeader("Content-Type", "application/json");
@@ -97,6 +105,10 @@ router.put('/', (req, res) => {
     if (size !== undefined) {
       updateFields.push('size = ?');
       updateValues.push(size);
+    }
+    if (goal_weekly !== undefined) {
+      updateFields.push('goal_weekly = ?');
+      updateValues.push(goal_weekly);
     }
     
     if (updateFields.length === 0) {

@@ -40,6 +40,20 @@ export class fieldsApi {
         )
         return 0;
     }
+
+static async put(fieldsId: number, name: string|undefined = undefined, kind: string|undefined = undefined, size: number|undefined = undefined){
+    if(name && name.length > 25) return 1;
+
+    let url = "http://localhost:3000/fields?id=" + fieldsId;
+    if (name !== undefined) url += "&name=" + name;
+    if (kind !== undefined) url += "&kind=" + kind;
+    if (size !== undefined) url += "&size=" + size;
+    url += "&key=" + key;
+    
+    fetch(url, {"method": "PUT"});
+    return 0;
+}
+
     
     static async delete(id: number){
         fetch("http://localhost:3000/fields?id=" + id + "&key=" + key,

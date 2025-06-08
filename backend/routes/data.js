@@ -13,12 +13,17 @@ var conn = mysql.createConnection({
 conn.connect();
 
 router.get('/', function(req, res) {
-  const data = req.body;
-  let id=data.fieldId;
-  let key=data.key;
-  let date=new Date(data.date).toISOString().split("T")[0];
+  let id=req.query['fieldId'];
+  let key=req.query['key'];
+  let date=new Date(req.query['date']).toISOString().split("T")[0];
 
-  conn.query("SELECT data.* FROM data JOIN fields ON data.champsId = fields.id JOIN users ON fields.userId = users.id WHERE data.champsId=? AND data.datetime=? AND users.key=?", [id, date, key], function (error, results) {
+  conn.query(`SELECT data.* FROM data 
+    JOIN fields ON data.champsId = fields.id 
+    JOIN users ON fields.userId = users.id 
+    WHERE data.champsId=? 
+      AND data.datetime=? 
+      AND users.key=?`
+    , [id, date, key], function (error, results) {
     if (error) {
       console.log(error);
       res.send(500);

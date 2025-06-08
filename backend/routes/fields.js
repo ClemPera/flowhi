@@ -38,10 +38,6 @@ router.get('/', function(req, res) {
   }
 });
 
-//New data
-//TODO: Rework this part: 
-//        - Non updatable
-//        - can't modify just one value
 router.post('/', (req, res) => {
   let name=req.query['name'];
   let kind=req.query['kind'];
@@ -50,10 +46,9 @@ router.post('/', (req, res) => {
   let key=req.query['key']; 
 
   res.setHeader("Content-Type", "application/json");
-  //TODO:Select request to check if it exists
-  // conn.query('SELECT fields.* FROM fields JOIN users ON fields.userId = users.id WHERE users.key=?', [key], function(error, firstResult) {
-
-  conn.query('INSERT INTO fields (name, kind, size, userId) VALUES (?,?,?, (SELECT id FROM users WHERE users.key = ?))', [name, kind, size, key], function (error, results, fields) {
+  conn.query(`INSERT INTO fields (name, kind, size, userId) 
+      VALUES (?,?,?, (SELECT id FROM users WHERE users.key = ?))`
+      , [name, kind, size, key], function (error, results, fields) {
     if (error) {
       console.log(error);
       res.send(500);
@@ -61,6 +56,67 @@ router.post('/', (req, res) => {
     else
       res.send(200);
   })
+});
+
+router.put('/', (req, res) => {
+  let fieldsId = req.query['id'];
+  let name = req.query['name'];
+  let kind = req.query['kind'];
+  let size = req.query['size'];
+  let key = req.query['key'];
+  
+  res.setHeader("Content-Type", "application/json");
+  
+  // First verify the user owns this field
+  conn.query(`SELECT f.id FROM fields f 
+              JOIN users u ON f.userId = u.id 
+              WHERE f.id = ? AND u.key = ?`, 
+              [fieldsId, key], 
+  function(error, results) {
+    if (error) {
+      console.log(error);
+      return res.status(500).json({error: "Database error"});
+    }
+    
+    if (results.length === 0) {
+      return res.status(404).json({error: "Field not found or unauthorized"});
+    }
+    
+    // Build dynamic UPDATE query based on provided parameters
+    let updateFields = [];
+    let updateValues = [];
+    
+    if (name !== undefined) {
+      updateFields.push('name = ?');
+      updateValues.push(name);
+    }
+    if (kind !== undefined) {
+      updateFields.push('kind = ?');
+      updateValues.push(kind);
+    }
+    if (size !== undefined) {
+      updateFields.push('size = ?');
+      updateValues.push(size);
+    }
+    
+    if (updateFields.length === 0) {
+      return res.status(400).json({error: "No fields to update"});
+    }
+    
+    // Add fieldsId to the end of values array for WHERE clause
+    updateValues.push(fieldsId);
+    
+    const updateQuery = `UPDATE fields SET ${updateFields.join(', ')} WHERE id = ?`;
+    
+    conn.query(updateQuery, updateValues, function(error, results) {
+      if (error) {
+          console.log(error);
+          res.status(500).json({error: "Update failed"});
+      } else {
+          res.status(200).json({message: "Field updated successfully"});
+      }
+    });
+  });
 });
 
 router.delete('/', (req, res) => {

@@ -5,7 +5,7 @@ import { Elem } from "./Store/elems";
 
 export default function TestCompo( ) {
     function buttonClick(){
-        fieldsApi.put(318, undefined, undefined, undefined, 0)
+        fieldsApi.put(318, {name: "testTestTEst", goal_weekly: 3});
     }
 
     return (    

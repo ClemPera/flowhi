@@ -43,8 +43,7 @@ export class fieldsApi {
         return 0;
     }
 
-    static async put(fieldsId: number, name: string|undefined = undefined, kind: string|undefined = undefined,
-                        size: number|undefined = undefined, goal_weekly: number|undefined = undefined) {
+    static async put(fieldsId: number, { name, kind, size, goal_weekly }: { name?: string, kind?: string, size?: number, goal_weekly?: number } = {}) {
         if (name && name.length > 25) return 1;
 
         let url = "http://localhost:3000/fields?id=" + fieldsId;
@@ -59,7 +58,6 @@ export class fieldsApi {
         fetch(url, { "method": "PUT" });
         return 0;
     }
-
 
     static async delete(id: number) {
         fetch("http://localhost:3000/fields?id=" + id + "&key=" + key,

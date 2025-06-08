@@ -1,6 +1,6 @@
 import { fieldsApi } from "./Api/fieldsApi";
 import Bin from "./Bin";
-import Goals from "./Goals";
+import Goals from "./Elems/Goals";
 import { Elem } from "./Store/elems";
 
 export default function TestCompo( ) {

@@ -1,5 +1,5 @@
 import Bin from "./Bin";
-import Goals from "./Goals";
+import Goals from "./Elems/Sub/Goals";
 import Scale from "./Scale";
 import { Elem } from "./Store/elems";
 import Time from "./Time";

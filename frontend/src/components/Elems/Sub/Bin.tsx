@@ -1,6 +1,6 @@
-import { Elem } from "./Store/elems";
+import { Elem } from "../../Store/elems";
 import TrashIcon from '@mui/icons-material/DeleteOutlineRounded';
-import { useGeneral } from "./Store/general";
+import { useGeneral } from "../../Store/general";
 
 export default function Bin( {elem}: {elem: Elem} ) {
     let { setDeletePopup, setDeleteInfos } = useGeneral();

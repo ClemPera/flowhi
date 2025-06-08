@@ -1,7 +1,7 @@
 import { motion } from "motion/react";
 import { useEffect, useRef, useState } from "react";
-import { dataApi } from "./Api/dataApi";
-import { useGeneral } from "./Store/general";
+import { dataApi } from "../Api/dataApi";
+import { useGeneral } from "../Store/general";
 import AddIcon from '@mui/icons-material/Add';
 import ArrowRight from '@mui/icons-material/ArrowForward';
 

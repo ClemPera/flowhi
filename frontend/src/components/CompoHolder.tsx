@@ -1,8 +1,8 @@
-import Bin from "./Bin";
+import Bin from "./Elems/Sub/Bin";
 import Goals from "./Elems/Sub/Goals";
-import Scale from "./Scale";
+import Scale from "./Elems/Scale";
 import { Elem } from "./Store/elems";
-import Time from "./Time";
+import Time from "./Elems/Time";
 
 export default function CompoHolder( {elem}: {elem: Elem} ) {
     let Component = () => {

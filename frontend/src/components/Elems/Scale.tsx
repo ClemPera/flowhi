@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
-import '../index.css'
-import { dataApi } from './Api/dataApi';
-import { useGeneral } from './Store/general';
+import { dataApi } from '../Api/dataApi';
+import { useGeneral } from '../Store/general';
 
 export default function Scale( {n, elemId}: {n: number, elemId: number} ) {
     const {date} = useGeneral()

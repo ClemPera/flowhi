@@ -1,9 +1,9 @@
 import React, { useRef, useState } from 'react';
-import { useElems } from './Store/elems';
+import { useElems } from '../Store/elems';
 import ArrowUp from '@mui/icons-material/ExpandLess';
 import ArrowBot from '@mui/icons-material/ExpandMore';
-import { fieldsApi } from './Api/fieldsApi';
-import { useGeneral } from './Store/general';
+import { fieldsApi } from '../Api/fieldsApi';
+import { useGeneral } from '../Store/general';
 
 export default function CreatePopup() {
     const { setCreatePopup: setPopup } = useGeneral();

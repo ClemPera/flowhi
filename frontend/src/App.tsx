@@ -2,11 +2,11 @@ import './index.css';
 import { useEffect } from 'react';
 import Plus from './components/Plus'
 import SpawnCompo from './components/SpawnCompo';
-import CreatePopup from './components/CreatePopup';
+import CreatePopup from './components/Popup/CreatePopup';
 import { useGeneral } from "./components/Store/general";
-import DeletePopup from './components/DeletePopup';
+import DeletePopup from './components/Popup/DeletePopup';
 import Date from './components/Date';
-import TestCompo from './components/TestCompo';
+import TestCompo from './components/Elems/TestCompo';
 
 function App() {
     const { createPopUp: popUp, setCreatePopup, createPopUp, setDeletePopup, deletePopUp } = useGeneral();

@@ -1,7 +1,5 @@
-import { fieldsApi } from "./Api/fieldsApi";
-import Bin from "./Bin";
-import Goals from "./Elems/Goals";
-import { Elem } from "./Store/elems";
+import { fieldsApi } from "../Api/fieldsApi";
+import Goals from "./Sub/Goals";
 
 export default function TestCompo( ) {
     function buttonClick(){

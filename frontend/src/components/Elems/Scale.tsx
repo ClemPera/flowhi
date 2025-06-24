@@ -33,15 +33,15 @@ export default function Scale( {n, elemId}: {n: number, elemId: number} ) {
     
     function Point({id}: {id: number}) {
         if(id==selected)
-            return <button onClick={() => updateStatus(id)} className="relative w-5 h-5 rounded-full border-4 border-white bg-white"></button>
+            return <button onClick={() => updateStatus(id)} className="w-5 h-5 rounded-full border-4 border-white bg-white"></button>
         else
-            return <button onClick={() => updateStatus(id)} className="relative w-5 h-5 rounded-full border-4 border-white bg-transparent hover:bg-white btn"></button>
+            return <button onClick={() => updateStatus(id)} className="w-5 h-5 rounded-full border-4 border-white bg-transparent hover:bg-white btn"></button>
     }
     
     function Line() {
         return (
-            <div className="place-self-center w-5 transform -translate-y-1">
-                <div className="absolute w-6 h-2 bg-white -translate-x-0.5"></div>
+            <div className="place-self-center w-5 ">
+                <div className="w-6 h-2 -ml-0.5 bg-white"></div>
             </div>
         )
     }

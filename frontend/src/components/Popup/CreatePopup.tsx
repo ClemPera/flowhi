@@ -3,10 +3,8 @@ import { useElems } from '../Store/elems';
 import ArrowUp from '@mui/icons-material/ExpandLess';
 import ArrowBot from '@mui/icons-material/ExpandMore';
 import { fieldsApi } from '../Api/fieldsApi';
-import { useGeneral } from '../Store/general';
 
-export default function CreatePopup() {
-    const { setCreatePopup: setPopup } = useGeneral();
+export default function CreatePopup({disablePopup}: {disablePopup: () => void}) {
     const { addLast } = useElems();
     
     let size = useRef(0);
@@ -35,7 +33,7 @@ export default function CreatePopup() {
             case 0:
                 if(await fieldsApi.post(name, 'scale', size.current) == 0){
                     addLast();
-                    setPopup(false);
+                    disablePopup();
                 }
                 else{
                     setErr(true);
@@ -46,7 +44,7 @@ export default function CreatePopup() {
                 case 1:
                     if(await fieldsApi.post(name, 'time', 0) == 0){
                         addLast();
-                        setPopup(false);
+                        disablePopup();
                     }
                     else{
                         setErr(true);

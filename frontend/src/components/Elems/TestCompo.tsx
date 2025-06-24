@@ -6,11 +6,11 @@ export default function TestCompo( ) {
         fieldsApi.put(318, {name: "testTestTEst", goal_weekly: 3});
     }
 
-    return (    
+    return (
         <div className="bg-zinc-800 mx-1 md:mx-24 xl:mx-60 rounded-xl">  
             <Goals/>
             <div className="flex flex-col my-2 px-4 pb-10">
-                <div className="relative grid grid-cols-12 pb-4">
+                <div className="grid grid-cols-12 pb-4">
                     <div className="col-span-11">
                         <h2 className="font-bold text-xl">TEST COMPO</h2>
                     </div>

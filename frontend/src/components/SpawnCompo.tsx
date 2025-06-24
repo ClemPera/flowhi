@@ -39,11 +39,11 @@ function CompoHolder( {elem}: {elem: Elem} ) {
         <div className="bg-zinc-800 mx-1 md:mx-24 xl:mx-60 rounded-xl">  
             <Goals/>
             <div className="flex flex-col my-2 px-4 pb-10">
-                <div className="relative grid grid-cols-12 pb-4">
-                    <div className="col-span-11">
+                <div className="flex flex-row justify-between pb-4">
+                    <div className="">
                         <h2 className="font-bold text-xl">{elem.name}</h2>
                     </div>
-                    <div className="col-span-1 flex-auto w-4 absolute top-0.5 right-3">
+                    <div className="w-4 pr-6">
                         <Bin elem={elem}/>
                     </div>
                 </div>

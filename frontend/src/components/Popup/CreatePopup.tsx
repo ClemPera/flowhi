@@ -75,7 +75,7 @@ export default function CreatePopup({ disablePopup }: { disablePopup: () => void
                     <div className="flex flex-col h-full w-full gap-2 pb-1 overflow-y-auto">
                         <input name="name" placeholder="Name" className={(err ? "bg-red-800" : "bg-zinc-900") + " rounded-xl p-3 focus:outline-hidden h-full w-full "} type="text" />
                         <Size />
-                        <button type="submit" className="p-2 mt-1 h-full w-full font-bold bg-zinc-950 rounded-xl place-content-center btn">Valider</button>
+                        <button type="submit" className="p-2 mt-1 h-full w-full font-bold bg-zinc-950 rounded-xl place-content-center btn">Confirm</button>
                     </div>
                 </form>
             </>
@@ -90,7 +90,7 @@ export default function CreatePopup({ disablePopup }: { disablePopup: () => void
                     <div className='grow bg-zinc-900 h-0.5 w-full my-2 mb-3'></div>
                     <div className="flex flex-col h-full w-full gap-2 pb-1 overflow-y-auto">
                         <input name="name" placeholder="Name" className={(err ? "bg-red-800" : "bg-zinc-900") + " rounded-xl p-3 focus:outline-hidden h-full w-full "} type="text" />
-                        <button type="submit" className="p-2 mt-1 h-full w-full font-bold bg-zinc-950 rounded-xl place-content-center btn">Valider</button>
+                        <button type="submit" className="p-2 mt-1 h-full w-full font-bold bg-zinc-950 rounded-xl place-content-center btn">Confirm</button>
                     </div>
                 </form>
             </>
